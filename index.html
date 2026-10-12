@@ -540,7 +540,7 @@ details.raciocinio .pensamento{grid-column:1/-1;font-size:13px;line-height:1.5;c
       <p class="erro" id="erro-senha" role="alert"></p>
       <button class="botao largo" type="submit" id="botao-entrar">Entrar</button>
     </form>
-    <p class="legenda" id="dica-demo" hidden style="margin-top:18px">Modo demonstração: funciona sem configurar nada, com dados de exemplo.</p>
+    <p class="legenda" id="dica-demo" hidden style="margin-top:18px">Modo demonstração: funciona sem configurar nada, com dados de exemplo. Qualquer senha entra.</p>
   </div>
 </main>
 
@@ -683,18 +683,20 @@ details.raciocinio .pensamento{grid-column:1/-1;font-size:13px;line-height:1.5;c
    CONFIGURAÇÃO — é só isto que vocês precisam preencher (veja o GUIA)
    ================================================================= */
 const CONFIG = {
-  supabaseUrl: "https://wrbalmowsbzdzlpxnawe.supabase.co/rest/v1/",          // ex.: "https://abcdefgh.supabase.co"
-  supabaseChave: "sb_publishable_j6mcmcY4t-zpyGUq-l9jVw_DU9NG31U",        // a chave "publishable" (ou "anon") do Supabase
+  // Endereço do projeto no Supabase: só o endereço, sem /rest/v1/ no fim.
+  supabaseUrl: "https://wrbalmowsbzdzlpxnawe.supabase.co",
+  // Chave "publishable" (sb_publishable_...). Pode ficar no site: ela não dá acesso aos dados sozinha.
+  supabaseChave: "sb_publishable_j6mcmcY4t-zpyGUq-l9jVw_DU9NG31U",
   // Cada pessoa: o nome que aparece no site e o e-mail da conta criada no Supabase.
-  // A senha NÃO fica aqui: ela é definida no Supabase (passo 2 do guia).
+  // As SENHAS não ficam aqui: elas são definidas no Supabase (passo 2 do guia).
   usuarios: [
     { nome: "Ana",     email: "annabaiekoliveira@gmail.com" },
-    { nome: "Gabriel", email: "mauriciogvalefogaca@gmail.com.com" }
-  ],
-  // Só para o modo demonstração (sem Supabase). Não é usado quando o site está ligado.
-  demoSenhas: { "Ana": "anazemane", "Gabriel": "mauriciotongo" }
+    { nome: "Gabriel", email: "mauriciogvalefogaca@gmail.com" }
+  ]
 };
 const NOMES = CONFIG.usuarios.map(u => u.nome);
+// Limpa o endereço: se alguém colar o link com /rest/v1/ no fim, o site continua funcionando.
+const SUPABASE_URL = String(CONFIG.supabaseUrl || "").trim().replace(/\/+$/, "").replace(/\/(rest|auth|storage|functions)\/v1$/, "");
 const emailDe = (nome) => (CONFIG.usuarios.find(u => u.nome === nome) || {}).email || "";
 const nomePorEmail = (email) => { const e = String(email || "").trim().toLowerCase(); const u = CONFIG.usuarios.find(x => x.email.trim().toLowerCase() === e); return u ? u.nome : ""; };
 /* ================================================================= */
@@ -803,7 +805,7 @@ window.addEventListener("unhandledrejection", e => avisar("Algo deu errado: " + 
 /* =================================================================
    CAMADA DE DADOS — Supabase (de verdade) ou demonstração (local)
    ================================================================= */
-const sb = (MODO_DEMO || CONFIG_INCOMPLETA || SEM_BIBLIOTECA) ? null : window.supabase.createClient(CONFIG.supabaseUrl.trim(), CONFIG.supabaseChave.trim());
+const sb = (MODO_DEMO || CONFIG_INCOMPLETA || SEM_BIBLIOTECA) ? null : window.supabase.createClient(SUPABASE_URL, String(CONFIG.supabaseChave).trim());
 
 const demo = {
   ler(t){ try { return JSON.parse(guardado.get("nc-demo-"+t)) || null; } catch { return null; } },
@@ -838,13 +840,18 @@ const demo = {
 const db = {
   async entrar(nome, senha){
     if (MODO_DEMO){
-      if (!CONFIG.demoSenhas[nome] || CONFIG.demoSenhas[nome] !== senha) throw new Error("senha");
+      // Demonstração local: não há dados reais aqui, então qualquer senha entra.
+      if (!senha) throw new Error("senha");
       guardado.set("nc-demo-logado", nome); guardado.set("nc-quem", nome); return;
     }
     const { error } = await sb.auth.signInWithPassword({ email: emailDe(nome), password: senha });
     if (error){
-      const m = (error.code || "") + " " + (error.message || "");
-      throw new Error(/not.?confirmed/i.test(m) ? "confirmar" : /rate.?limit|too many/i.test(m) ? "espera" : /invalid|credentials/i.test(m) ? "senha" : "rede");
+      const code = String(error.code || ""), msg = String(error.message || ""), st = Number(error.status || 0);
+      if (code === "invalid_credentials" || /invalid login credentials/i.test(msg)) throw new Error("senha");
+      if (code === "email_not_confirmed" || /not confirmed/i.test(msg)) throw new Error("confirmar");
+      if (st === 404 || /invalid path/i.test(msg)) throw new Error("endereco");
+      if (code === "over_request_rate_limit" || st === 429) throw new Error("espera");
+      const e = new Error("rede"); e.detalhe = msg || code || "erro desconhecido"; throw e;
     }
   },
   async sessao(){
@@ -1728,10 +1735,11 @@ $("#form-senha").addEventListener("submit", async e => {
   try { await db.entrar(nome, senha); guardado.set("nc-quem", nome); await abrirApp(); }
   catch (err){
     erro.textContent = {
-      senha: "Senha incorreta. Confiram e tentem de novo.",
+      senha: "E-mail ou senha não conferem. Confiram a senha de quem está selecionado (passo 2 do guia).",
       confirmar: "A conta ainda não foi confirmada. Vejam o passo 2 do guia (Auto Confirm User).",
-      espera: "Muitas tentativas seguidas. Esperem alguns minutos e tentem de novo."
-    }[err.message] || "Não deu para conectar. Confiram a internet e tentem de novo.";
+      espera: "Muitas tentativas seguidas. Esperem alguns minutos e tentem de novo.",
+      endereco: "O endereço do Supabase está errado no index.html. Ele deve terminar em .supabase.co (passo 5 do guia)."
+    }[err.message] || ("Não deu para conectar" + (err.detalhe ? ": " + err.detalhe : ". Confiram a internet e tentem de novo."));
     botao.disabled = false; botao.textContent = "Entrar"; $("#senha").select();
   }
 });
