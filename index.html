@@ -1,0 +1,1755 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nossa casa">
+<title>Nossa casa</title>
+<link rel="icon" href="icone.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icone-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Tokens — estrutura e ritmo estudados no apple.com,
+   cores trocadas por uma paleta vermelho + branco.
+   ============================================================ */
+:root{
+  --branco:#FFFFFF;
+  --nevoa:#FBF5F5;      /* fundo de seções (equivale ao #f5f5f7 da Apple) */
+  --linha:#EFDFE1;      /* divisórias e trilhos */
+  --borda:#9A7C80;      /* borda de campos (contraste 3.8:1) */
+  --tinta:#2B1418;      /* texto principal */
+  --tinta-2:#7A5A5F;    /* texto secundário (6:1) */
+  --vermelho:#C1121F;   /* ação e destaque (6.2:1) */
+  --vinho:#7F0E1E;      /* pressionado / títulos fortes */
+  --rosa:#F6D9DC;       /* preenchimentos suaves */
+  --amarelo:#FFF6D1;    /* amarelo pastel: fundos de destaque */
+  --amarelo-2:#FBEDB0;  /* amarelo pastel mais presente */
+  --amarelo-claro:#FFFBEA;
+  --amarelo-borda:#EBD98F;
+  --amarelo-tinta:#5C4A12; /* texto sobre amarelo (7,9:1) */
+  --ouro:#C9A54E;       /* só nos logos e detalhes */
+  --ouro-claro:#F1E2B6;
+  --serif:"Fraunces", Georgia, "Times New Roman", serif;
+  --sans:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --curva:cubic-bezier(.4,0,.6,1);
+  --curva-saida:cubic-bezier(.25,.1,.3,1);
+  --barra:48px;
+  --abas:58px;
+  --largura:min(980px, 87.5vw);
+  --topo-seguro:env(safe-area-inset-top, 0px);
+  --baixo-seguro:env(safe-area-inset-bottom, 0px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--barra) + var(--topo-seguro))}
+body{
+  margin:0;background:var(--branco);color:var(--tinta);
+  font:400 17px/1.47 var(--sans);letter-spacing:-.022em;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+}
+img{max-width:100%;display:block}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer}
+a{color:var(--vermelho)}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--vermelho);outline-offset:2px;border-radius:6px}
+.so-leitor{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Tipografia ---------- */
+.titulo-grande{font:500 34px/1.1 var(--serif);letter-spacing:-.02em;margin:0;color:var(--tinta);font-variation-settings:"opsz" 96}
+.titulo-secao{font:500 24px/1.17 var(--serif);letter-spacing:-.012em;margin:0;font-variation-settings:"opsz" 48}
+.sub{font-size:17px;color:var(--tinta-2);margin:6px 0 0}
+.pequeno{font-size:14px;line-height:1.43;letter-spacing:-.016em;color:var(--tinta-2)}
+.legenda{font-size:12px;line-height:1.33;letter-spacing:0;color:var(--tinta-2)}
+.numero{font-variant-numeric:tabular-nums}
+
+/* ---------- Botões ---------- */
+.botao{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:44px;padding:0 22px;border-radius:980px;border:0;
+  background:var(--vermelho);color:#fff;font-weight:500;font-size:17px;
+  transition:background-color .24s var(--curva), transform .24s var(--curva);
+  text-decoration:none;
+}
+.botao:hover{background:#A80F1B}
+.botao:active{background:var(--vinho);transform:scale(.98)}
+.botao[disabled]{background:var(--rosa);color:var(--vinho);cursor:default;transform:none}
+.botao.secundario{background:var(--nevoa);color:var(--tinta);box-shadow:inset 0 0 0 1px var(--linha)}
+.botao.secundario:hover{background:#F6ECEC}
+.botao.perigo{background:transparent;color:var(--vermelho);box-shadow:inset 0 0 0 1px var(--vermelho)}
+.botao.pequeno-b{min-height:36px;padding:0 16px;font-size:15px}
+.botao.largo{width:100%}
+.link{background:none;border:0;padding:10px 4px;color:var(--vermelho);font-size:17px;min-height:44px;text-decoration:none}
+.link:hover{text-decoration:underline}
+.icone-btn{
+  width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;
+  background:transparent;color:var(--tinta);
+}
+.icone-btn:hover{background:var(--nevoa)}
+.mais{background:var(--vermelho);color:#fff}
+.mais:hover{background:#A80F1B}
+svg.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Entrada (senha) ---------- */
+.entrada{
+  min-height:100svh;display:grid;place-items:center;padding:calc(32px + var(--topo-seguro)) 24px calc(32px + var(--baixo-seguro));
+  background:linear-gradient(180deg,var(--amarelo-claro) 0%,var(--branco) 62%);
+}
+.entrada-caixa{width:min(360px,100%);text-align:center}
+.entrada .casa-mini{width:120px;margin:0 auto 28px}
+.entrada h1{font:500 40px/1.1 var(--serif);letter-spacing:-.02em;margin:0;font-variation-settings:"opsz" 120}
+.entrada p{color:var(--tinta-2);margin:10px 0 32px}
+.campo-senha{position:relative;text-align:left}
+.erro{color:var(--vermelho);font-size:14px;margin:8px 2px 4px;min-height:20px;text-align:left}
+
+/* ---------- Campos ---------- */
+.rotulo{display:block;font-size:14px;font-weight:500;color:var(--tinta);margin:0 0 6px}
+.entrada-texto,select.entrada-texto,textarea.entrada-texto{
+  width:100%;min-height:50px;padding:12px 16px;border-radius:12px;
+  border:1px solid var(--borda);background:var(--branco);font-size:17px;
+  transition:border-color .24s var(--curva), box-shadow .24s var(--curva);
+}
+textarea.entrada-texto{min-height:88px;resize:vertical}
+::placeholder{color:var(--borda);opacity:1}
+.entrada-texto:focus{outline:none;border-color:var(--vermelho);box-shadow:0 0 0 4px rgba(193,18,31,.14)}
+.grupo{margin-bottom:18px}
+.duas-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ---------- Estrutura do app ---------- */
+.barra-topo{
+  position:fixed;inset:0 0 auto 0;z-index:30;
+  padding-top:var(--topo-seguro);
+  background:rgba(255,255,255,.8);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid rgba(239,223,225,.7);
+}
+.barra-topo .dentro{
+  height:var(--barra);width:var(--largura);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.marca{font:500 19px/1 var(--serif);letter-spacing:-.01em;display:flex;align-items:center;gap:8px;color:var(--tinta);text-decoration:none}
+.marca svg{width:22px;height:22px}
+main{
+  padding:calc(var(--barra) + var(--topo-seguro) + 20px) 0 calc(var(--abas) + var(--baixo-seguro) + 40px);
+}
+.miolo{width:var(--largura);margin:0 auto}
+.cabecalho{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:8px 0 24px}
+.vista{animation:none}
+.vista.entrou{animation:aparece .32s var(--curva-saida)}
+@keyframes aparece{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Abas: embaixo no celular (como no iPhone), no topo no computador */
+.abas{
+  position:fixed;left:0;right:0;bottom:0;z-index:31;
+  padding-bottom:var(--baixo-seguro);
+  background:rgba(255,255,255,.86);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-top:1px solid rgba(239,223,225,.9);
+  display:flex;justify-content:space-around;
+}
+.aba{
+  flex:1;max-width:120px;height:var(--abas);border:0;background:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--tinta-2);font-size:11px;letter-spacing:0;font-weight:500;
+}
+.aba svg.ic{width:24px;height:24px}
+.aba[aria-current="page"]{color:var(--vermelho)}
+.aba[aria-current="page"] svg.ic{stroke-width:2}
+
+/* ---------- Faixa de demonstração ---------- */
+.faixa-demo{
+  background:var(--amarelo);color:var(--vinho);font-size:14px;line-height:1.4;
+  padding:10px 14px;border-radius:12px;margin:0 0 20px;
+}
+
+/* ---------- Inventário: progresso com a casa ---------- */
+.painel{
+  background:linear-gradient(160deg,var(--amarelo) 0%,var(--amarelo-claro) 75%);border-radius:24px;padding:24px;
+  display:grid;grid-template-columns:116px 1fr;gap:20px;align-items:center;
+}
+.casa{width:116px;overflow:visible}
+.casa .contorno{fill:none;stroke:var(--tinta);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.casa .agua{fill:var(--vermelho)}
+.casa .janela{fill:var(--branco);stroke:var(--tinta);stroke-width:2.2}
+.casa .coracao{fill:var(--vermelho);opacity:0;transform-origin:143px 18px;transform:scale(.4)}
+.casa.completa .coracao{opacity:1;transform:scale(1);transition:all .5s var(--curva-saida) .9s}
+.porcentagem{font:500 56px/1 var(--serif);letter-spacing:-.03em;margin:0;font-variant-numeric:lining-nums tabular-nums;font-variation-settings:"opsz" 144}
+.porcentagem small{font-size:.5em;margin-left:2px;color:var(--tinta-2)}
+.trilho{height:6px;background:var(--rosa);border-radius:6px;overflow:hidden;margin:12px 0 8px}
+.trilho > span{display:block;height:100%;background:var(--vermelho);border-radius:6px;width:0;transition:width .9s var(--curva-saida)}
+.comodos-prog{grid-column:1/-1;display:grid;gap:10px;margin-top:4px;padding-top:16px;border-top:1px solid var(--linha)}
+.comodo-linha{display:grid;grid-template-columns:96px 1fr auto;gap:12px;align-items:center;font-size:14px}
+.comodo-linha .trilho{margin:0;height:4px}
+
+/* ---------- Filtros (chips) ---------- */
+.chips{
+  display:flex;gap:8px;overflow-x:auto;padding:2px 2px 4px;margin:28px -2px 18px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;min-height:36px;padding:0 14px;border-radius:980px;border:1px solid var(--amarelo-borda);
+  background:var(--branco);font-size:14px;color:var(--tinta);white-space:nowrap;
+}
+.chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:#fff}
+
+/* ---------- Grade de itens ---------- */
+.grade{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 14px}
+.item{border:0;padding:0;background:none;text-align:left;width:100%;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
+.foto{
+  aspect-ratio:1;border-radius:18px;background:var(--nevoa);overflow:hidden;position:relative;
+  display:grid;place-items:center;
+}
+.foto img{width:100%;height:100%;object-fit:cover}
+.foto.contida img{object-fit:contain;padding:10px;background:#fff}
+.linha-compra .foto.contida img{padding:4px}
+.foto .inicial{font:400 44px/1 var(--serif);color:var(--vermelho);opacity:.8}
+.item h2{font-size:15px;font-weight:500;line-height:1.3;margin:10px 0 2px;letter-spacing:-.01em;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.selo{
+  position:absolute;left:10px;top:10px;background:rgba(255,255,255,.9);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-radius:980px;padding:3px 9px;font-size:12px;letter-spacing:0;color:var(--tinta)
+}
+
+/* ---------- Vazio ---------- */
+.vazio{text-align:center;padding:48px 20px;background:var(--amarelo-claro);border:1px solid var(--amarelo-borda);border-radius:24px}
+.vazio h2{font:500 22px/1.2 var(--serif);margin:0 0 8px}
+.vazio p{color:var(--tinta-2);margin:0 auto 20px;max-width:34ch}
+
+/* ---------- Busca ---------- */
+.busca-form{display:flex;gap:10px;align-items:center}
+.busca-campo{position:relative;flex:1}
+.busca-campo svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--tinta-2);width:20px;height:20px}
+.busca-campo input{
+  width:100%;height:50px;border-radius:12px;border:1px solid var(--borda);background:var(--branco);
+  padding:0 14px 0 44px;font-size:17px;-webkit-appearance:none;appearance:none
+}
+.busca-campo input:focus{outline:none;border-color:var(--vermelho);box-shadow:0 0 0 4px rgba(193,18,31,.14)}
+.resultado .preco{font-weight:600;font-size:17px;margin:2px 0 0}
+.resultado .loja{font-size:13px;color:var(--tinta-2);letter-spacing:-.01em}
+.resultado .acoes{display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.carregando{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 14px}
+.esqueleto{aspect-ratio:1;border-radius:18px;background:linear-gradient(100deg,var(--nevoa) 30%,#F6ECED 50%,var(--nevoa) 70%);background-size:300% 100%;animation:brilho 1.4s linear infinite}
+@keyframes brilho{to{background-position:-150% 0}}
+.nota-busca{margin:14px 2px 0}
+
+/* ---------- Compras ---------- */
+.resumo{background:linear-gradient(160deg,var(--amarelo) 0%,var(--amarelo-claro) 80%);border-radius:24px;padding:24px}
+.resumo .falta{font:500 48px/1.05 var(--serif);letter-spacing:-.03em;margin:4px 0 6px;font-variant-numeric:lining-nums tabular-nums;font-variation-settings:"opsz" 144}
+.graficos{display:grid;gap:16px;margin-top:16px}
+.graficos > *{min-width:0}
+.cartao{background:var(--branco);border:1px solid var(--linha);border-radius:24px;padding:22px}
+.rosca{display:grid;grid-template-columns:128px minmax(0,1fr);gap:18px;align-items:center}
+.rosca svg{width:128px;height:128px}
+.legenda-lista{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.legenda-lista li{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:14px}
+.ponto{width:12px;height:12px;border-radius:3px}
+@media (max-width:420px){.rosca{grid-template-columns:1fr;justify-items:center}.legenda-lista{width:100%}}
+.barras{display:grid;gap:16px;margin-top:14px}
+.barra-linha .topo-b{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;gap:8px}
+.barra-linha .trilho{margin:0;height:8px}
+.lista-compras{list-style:none;padding:0;margin:0}
+.grupo-titulo{font-size:14px;font-weight:600;color:var(--tinta-2);margin:28px 0 6px;letter-spacing:-.01em}
+.linha-compra{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--linha);align-items:start}
+.linha-compra .foto{border-radius:14px}
+.linha-compra h4{font-size:16px;font-weight:500;margin:0;line-height:1.3;letter-spacing:-.01em}
+.linha-compra .meta{font-size:14px;color:var(--tinta-2);margin:2px 0 8px}
+.linha-compra .acoes{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-left:-4px}
+.botao-comprei{min-height:36px;padding:0 14px;border-radius:980px;border:1px solid var(--vermelho);background:var(--branco);color:var(--vermelho);font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.botao-comprei:hover{background:var(--vermelho);color:#fff}
+.link-p{font-size:15px;color:var(--vermelho);text-decoration:none;padding:8px 10px;min-height:36px;display:inline-flex;align-items:center;background:none;border:0}
+.link-p:hover{text-decoration:underline}
+.link-p.cinza{color:var(--tinta-2)}
+
+/* ---------- Estética ---------- */
+.bloco{margin-top:36px}
+.bloco-topo{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.paleta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.amostra{border:1px solid var(--linha);border-radius:14px;overflow:hidden;background:#fff;padding:0;text-align:left;display:flex;flex-direction:column;justify-content:flex-start;align-self:start;width:100%}
+.amostra .cor{aspect-ratio:4/3}
+.amostra .info{padding:8px 10px 10px}
+.amostra .nome-cor{font-size:13px;font-weight:500;line-height:1.25;letter-spacing:-.01em}
+.amostra .hex{font-size:11px;color:var(--tinta-2);letter-spacing:.02em}
+.materiais{display:flex;flex-wrap:wrap;gap:8px}
+.material{min-height:36px;padding:0 14px;border-radius:980px;background:var(--amarelo);border:1px solid var(--amarelo-borda);color:var(--amarelo-tinta);font-size:14px;display:inline-flex;align-items:center}
+.mural{columns:2;column-gap:12px}
+.ref{break-inside:avoid;margin:0 0 12px;border:0;padding:0;background:none;text-align:left;width:100%;display:flex;flex-direction:column;justify-content:flex-start}
+.ref img{border-radius:16px;width:100%;background:var(--nevoa)}
+.ref .ref-texto{padding:8px 2px 4px}
+.ref .ref-titulo{font-size:14px;font-weight:500;line-height:1.3}
+
+/* ---------- Folha (bottom sheet / diálogo) ---------- */
+dialog.folha{
+  border:0;padding:0;margin:auto auto 0;width:100%;max-width:100%;
+  max-height:calc(100svh - 24px - var(--topo-seguro));
+  border-radius:22px 22px 0 0;background:var(--branco);color:var(--tinta);
+  box-shadow:0 -10px 40px rgba(43,20,24,.12);
+}
+dialog.folha::backdrop{background:rgba(43,20,24,.32);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+dialog.folha[open]{animation:sobe .32s var(--curva-saida)}
+@keyframes sobe{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.folha-dentro{padding:10px 20px calc(24px + var(--baixo-seguro));overflow:auto;max-height:inherit}
+.puxador{width:36px;height:5px;border-radius:3px;background:var(--linha);margin:0 auto 10px}
+.folha-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px}
+.folha-topo h2{font:500 22px/1.2 var(--serif);margin:0}
+.escolher-foto{
+  width:100%;aspect-ratio:16/10;border-radius:16px;border:1.5px dashed var(--borda);background:var(--nevoa);
+  display:grid;place-items:center;color:var(--tinta-2);font-size:15px;overflow:hidden;position:relative;margin-bottom:18px;
+}
+.escolher-foto:has(+ #arquivo-foto:focus-visible){outline:2px solid var(--vermelho);outline-offset:2px}
+.escolher-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.escolher-foto .dica{display:grid;justify-items:center;gap:6px}
+.segmentado{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--nevoa);border-radius:10px;padding:3px;margin-bottom:18px;border:1px solid var(--linha)}
+.segmentado button{border:0;background:transparent;min-height:36px;border-radius:8px;font-size:14px;font-weight:500;color:var(--tinta-2)}
+.segmentado button[aria-pressed="true"]{background:var(--branco);color:var(--tinta);box-shadow:0 1px 3px rgba(43,20,24,.12)}
+.opcoes-comodo{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.rodape-folha{display:grid;gap:10px;margin-top:8px}
+
+/* ---------- Logos ---------- */
+.logo{display:block}
+.entrada .medalhao-entrada{width:min(260px,70vw);margin:0 auto 24px}
+.marca .logo{width:30px;height:28px}
+.vazio .logo{width:56px;height:52px;margin:0 auto 14px;color:var(--vermelho);opacity:.85}
+.rodape{margin:56px auto 0;display:grid;justify-items:center;gap:6px;color:var(--vermelho)}
+.rodape .logo{width:40px;height:37px;opacity:.9}
+.rodape p{margin:0;font:400 14px/1.3 var(--serif);color:var(--tinta-2)}
+body[data-vista="ajudante"] .rodape{display:none}
+.resumo{position:relative;overflow:hidden}
+.resumo .laco-canto{position:absolute;right:14px;top:10px;width:58px;height:54px;transform:rotate(8deg)}
+.folha .logo-folha{width:150px;margin:0 auto 6px}
+
+/* ---------- Ajudante ---------- */
+.chat{display:flex;flex-direction:column;gap:16px;padding-bottom:8px}
+.msg{font-size:16px;line-height:1.47;letter-spacing:-.012em}
+.msg.eu{align-self:flex-end;max-width:min(84%,600px);background:var(--vermelho);color:#fff;padding:10px 15px;border-radius:20px 20px 6px 20px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.ia{align-self:stretch;display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;max-width:720px}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--amarelo);border:1px solid var(--amarelo-borda);display:grid;place-items:center}
+.avatar svg{width:24px;height:24px}
+.girando svg{animation:girar 1.1s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.bolha{background:var(--amarelo-claro);border:1px solid var(--amarelo-borda);padding:12px 16px;border-radius:6px 20px 20px 20px;min-width:0;overflow-wrap:anywhere}
+.bolha p{margin:0 0 10px}.bolha p:last-child{margin-bottom:0}
+.bolha ul,.bolha ol{margin:4px 0 10px;padding-left:22px}.bolha li{margin:2px 0}
+.bolha h4{font:500 18px/1.25 var(--serif);margin:12px 0 6px}
+.bolha code{background:#fff;border-radius:5px;padding:1px 5px;font-size:.92em}
+.bolha.erro-ia{background:#fff;border:1px solid var(--vermelho);color:var(--vinho)}
+.meta-ia{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-top:8px;font-size:12px;color:var(--tinta-2);letter-spacing:0}
+.meta-ia svg{width:14px;height:14px}
+details.raciocinio summary{cursor:pointer;color:var(--tinta-2);display:inline-flex;align-items:center;gap:4px;min-height:28px;list-style:none}
+details.raciocinio summary::-webkit-details-marker{display:none}
+details.raciocinio .pensamento{grid-column:1/-1;font-size:13px;line-height:1.5;color:var(--tinta-2);white-space:pre-wrap;max-height:260px;overflow:auto;border-left:2px solid var(--linha);padding:2px 0 2px 12px;margin:6px 0 2px}
+.minilista{margin-top:12px;background:var(--branco);border:1px solid var(--amarelo-borda);border-radius:18px;padding:16px;display:grid;gap:12px}
+.minilista .topo-ml{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.minilista .icone-ml{width:44px;height:44px;border-radius:13px;background:var(--amarelo-2);display:grid;place-items:center}
+.minilista .icone-ml svg{width:30px;height:28px}
+.minilista .titulo-ml{font:500 18px/1.2 var(--serif);margin:0;letter-spacing:-.01em}
+.minilista .resumo-ml{font-size:13px;color:var(--tinta-2);margin:2px 0 0;letter-spacing:-.005em}
+.minilista ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.minilista li{display:flex;justify-content:space-between;gap:10px;font-size:14px;border-top:1px solid var(--linha);padding-top:6px}
+.minilista li span:last-child{color:var(--tinta-2);white-space:nowrap}
+.minilista .acoes-ml{display:flex;flex-wrap:wrap;gap:8px}
+.estado-ml{font-size:13px;color:var(--vinho)}
+.item-unico{display:grid;gap:4px}
+.item-unico .nome-u{font-weight:500}
+.vazio-chat{text-align:center;padding:24px 8px 8px}
+.vazio-chat .cv-grande{width:72px;height:84px;margin:0 auto 14px}
+.vazio-chat h2{font:500 26px/1.15 var(--serif);margin:0 0 8px}
+.vazio-chat p{color:var(--tinta-2);margin:0 auto 18px;max-width:38ch}
+.sugestoes-chat{display:grid;gap:8px;max-width:520px;margin:0 auto;text-align:left}
+.sugestao-chat{text-align:left;border:1px solid var(--amarelo-borda);background:var(--branco);border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.35;min-height:44px}
+.sugestao-chat:hover{background:var(--amarelo-claro)}
+#v-ajudante .chat,#v-ajudante .compositor{max-width:760px;margin-left:auto;margin-right:auto}
+.compositor{position:sticky;bottom:calc(var(--abas) + var(--baixo-seguro) + 10px);margin-top:18px;z-index:5}
+.caixa-chat{background:rgba(255,255,255,.92);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border:1px solid var(--borda);border-radius:22px;padding:8px 8px 8px 16px}
+.caixa-chat:focus-within{border-color:var(--vermelho);box-shadow:0 0 0 4px rgba(193,18,31,.12)}
+.caixa-chat textarea{width:100%;border:0;background:transparent;resize:none;font-size:17px;line-height:1.4;padding:6px 0;max-height:140px;outline:none;display:block}
+.linha-chat{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pilula-web{border:1px solid var(--linha);background:var(--branco);border-radius:980px;min-height:34px;padding:0 12px;font-size:13px;display:inline-flex;align-items:center;gap:6px;color:var(--tinta-2);letter-spacing:0}
+.pilula-web svg{width:15px;height:15px}
+.pilula-web[aria-pressed="true"]{background:var(--rosa);border-color:var(--rosa);color:var(--vinho)}
+.enviar{width:40px;height:40px;border-radius:50%;border:0;background:var(--vermelho);color:#fff;display:grid;place-items:center;flex:none}
+.enviar[disabled]{background:var(--rosa);color:var(--vinho)}
+.enviar svg{width:20px;height:20px}
+.revisao{display:grid;gap:14px}
+.cartao-rev{background:linear-gradient(160deg,var(--amarelo) 0%,var(--amarelo-claro) 85%);border-radius:20px;padding:20px;display:grid;gap:8px}
+.cartao-rev .selo-comodo{justify-self:start;background:var(--branco);border:1px solid var(--linha);border-radius:980px;padding:3px 10px;font-size:12px;letter-spacing:0}
+.cartao-rev h3{font:500 24px/1.2 var(--serif);margin:0;letter-spacing:-.01em}
+.cartao-rev .preco-rev{font-weight:500;margin:0}
+.cartao-rev .motivo{color:var(--tinta-2);margin:0;font-size:15px}
+.cartao-rev .estado-rev{font-size:13px;color:var(--vinho);margin:0}
+.lista-rev{list-style:none;margin:0;padding:0}
+.lista-rev li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--linha)}
+.lista-rev .n{font-size:15px;font-weight:500;line-height:1.3}
+.lista-rev .d{font-size:13px;color:var(--tinta-2)}
+.lista-rev .ok{font-size:13px;color:var(--vinho);display:inline-flex;gap:4px;align-items:center}
+
+/* ---------- Aviso (toast) ---------- */
+.aviso{
+  position:fixed;left:50%;bottom:calc(var(--abas) + var(--baixo-seguro) + 14px);z-index:60;
+  transform:translate(-50%,20px);opacity:0;pointer-events:none;
+  background:var(--tinta);color:#fff;border-radius:980px;padding:11px 18px;font-size:15px;
+  width:max-content;max-width:calc(100vw - 32px);text-align:center;
+  transition:opacity .24s var(--curva), transform .24s var(--curva);
+}
+.aviso.ver{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Computador e tablet ---------- */
+@media (min-width:735px){
+  .titulo-grande{font-size:48px;line-height:1.08}
+  .cabecalho{margin:24px 0 32px}
+  .grade,.carregando{grid-template-columns:repeat(3,1fr);gap:28px 20px}
+  .painel{grid-template-columns:180px 1fr;padding:36px 40px;gap:36px}
+  .casa{width:180px}
+  .porcentagem{font-size:80px}
+  .comodos-prog{grid-template-columns:1fr 1fr;column-gap:40px}
+  .graficos{grid-template-columns:1fr 1fr}
+  .paleta{grid-template-columns:repeat(5,1fr)}
+  .mural{columns:3}
+  dialog.folha{margin:auto;width:min(520px,92vw);border-radius:22px;max-height:88vh}
+  .puxador{display:none}
+  .folha-dentro{padding:24px 28px 28px}
+}
+@media (min-width:834px) and (max-width:1068px){
+  .marca .texto-marca{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+}
+@media (min-width:834px){
+  .compositor{bottom:16px}
+  :root{--barra:52px}
+  .abas{
+    top:calc(var(--topo-seguro));bottom:auto;left:50%;right:auto;transform:translateX(-50%);
+    background:transparent;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;
+    height:var(--barra);padding:0;gap:4px;align-items:center;
+  }
+  .aba{flex-direction:row;height:36px;max-width:none;padding:0 14px;border-radius:980px;font-size:14px;gap:7px;letter-spacing:-.01em}
+  .aba svg.ic{width:18px;height:18px}
+  .aba:hover{background:var(--nevoa);color:var(--tinta)}
+  .aba[aria-current="page"]{background:var(--rosa);color:var(--vinho)}
+  main{padding-bottom:64px}
+  .aviso{bottom:32px}
+}
+@media (min-width:1069px){
+  .grade,.carregando{grid-template-columns:repeat(4,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  .girando svg{animation:none}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="lt-A" viewBox="0 -1404 2118 1409"><path transform="scale(1,-1)" d="M212 -5Q106 -5 53.0 37.5Q0 80 0 141Q0 186 31.5 204.5Q63 223 94 223Q111 223 127.5 213.0Q144 203 144 178Q144 159 127.5 144.0Q111 129 88 129Q75 129 62.5 130.5Q50 132 40 139V132Q40 84 81.5 53.0Q123 22 220 22Q287 22 357.0 51.0Q427 80 503 132Q540 159 576.5 188.0Q613 217 652 249Q507 303 424.5 399.5Q342 496 337 602Q334 672 367.0 732.5Q400 793 467.0 831.0Q534 869 631 869Q766 869 869.0 789.5Q972 710 1027 593L1054 620Q1239 805 1375.0 930.0Q1511 1055 1609.0 1134.5Q1707 1214 1778.5 1261.0Q1850 1308 1905 1337Q1979 1376 2027.0 1390.0Q2075 1404 2100 1404Q2118 1404 2118 1395Q2118 1391 2098 1383Q2083 1378 2055.0 1349.0Q2027 1320 1973.0 1250.5Q1919 1181 1825.5 1056.5Q1732 932 1587.5 738.5Q1443 545 1232 267Q1414 321 1551.0 438.0Q1688 555 1746 709Q1758 739 1762 739Q1765 739 1771.5 730.5Q1778 722 1778 710Q1772 624 1729.0 558.5Q1686 493 1626 434Q1546 356 1435.0 303.5Q1324 251 1200 225L1029 -1Q998 1 965.5 3.0Q933 5 913 5Q896 5 882.5 3.0Q869 1 855 -1Q893 47 930.0 92.5Q967 138 1003 182Q1011 194 1014 201Q998 200 982.5 199.5Q967 199 951 199Q878 199 811.5 209.0Q745 219 687 237Q616 177 562.5 137.0Q509 97 470 73Q406 33 342.0 14.0Q278 -5 212 -5ZM1070 264Q1352 610 1544.5 835.0Q1737 1060 1854.0 1187.5Q1971 1315 2026 1366Q1994 1353 1959.5 1338.0Q1925 1323 1877 1294Q1796 1245 1689.5 1158.5Q1583 1072 1439.5 941.0Q1296 810 1105 624L1041 562Q1061 512 1071.5 459.0Q1082 406 1082 353Q1082 308 1070 264ZM676 269Q745 328 824.5 401.5Q904 475 1004 572Q953 691 854.5 765.0Q756 839 633 839Q569 839 515.5 806.0Q462 773 430.5 719.5Q399 666 399 604Q399 500 468.0 409.0Q537 318 676 269ZM957 227Q993 227 1027 230Q1039 261 1044.5 293.0Q1050 325 1050 347Q1050 446 1017 539Q926 451 849.5 381.5Q773 312 711 258Q820 227 957 227Z"/></symbol><symbol id="lt-M" viewBox="0 -1487 2545 1489"><path transform="scale(1,-1)" d="M1488 -2Q1427 -2 1397.0 25.5Q1367 53 1367 93Q1367 122 1393.0 185.0Q1419 248 1501 372Q1597 515 1717.0 660.5Q1837 806 1962.5 943.0Q2088 1080 2204.5 1199.0Q2321 1318 2411 1407Q2366 1375 2311.0 1329.0Q2256 1283 2176.0 1210.5Q2096 1138 1979.0 1028.0Q1862 918 1694 757Q1610 677 1450.5 512.0Q1291 347 1076 96Q1024 35 1004.5 21.0Q985 7 974 7Q967 7 959.5 17.0Q952 27 952 49Q952 133 1010.0 269.5Q1068 406 1174.5 578.5Q1281 751 1427.0 944.0Q1573 1137 1748 1335Q1692 1284 1543.5 1130.0Q1395 976 1132 687Q904 437 722.0 283.5Q540 130 400 59Q280 -1 188 -1Q94 -1 47.0 35.0Q0 71 0 127Q0 173 31.0 195.5Q62 218 93 218Q109 218 126.5 207.0Q144 196 144 172Q144 153 127.0 137.5Q110 122 87 122Q74 122 61.5 124.0Q49 126 39 133Q39 129 38.5 126.0Q38 123 38 121Q38 78 76.0 52.0Q114 26 187 26Q261 26 357.5 70.0Q454 114 585.5 216.5Q717 319 895.0 493.0Q1073 667 1310 926Q1509 1143 1636.5 1264.5Q1764 1386 1828.5 1435.0Q1893 1484 1902 1484Q1909 1484 1919.0 1481.5Q1929 1479 1929 1474Q1929 1468 1914 1455Q1904 1446 1889.5 1433.0Q1875 1420 1854 1399Q1828 1371 1774.5 1295.5Q1721 1220 1650.5 1113.5Q1580 1007 1500.5 883.0Q1421 759 1343.0 633.0Q1265 507 1196.5 394.0Q1128 281 1078.5 194.5Q1029 108 1008 65Q1117 191 1205.5 291.0Q1294 391 1375.5 478.5Q1457 566 1542.5 653.0Q1628 740 1730.0 838.5Q1832 937 1962 1060Q2135 1221 2250.5 1314.5Q2366 1408 2435.0 1447.5Q2504 1487 2535 1487Q2545 1487 2545 1479Q2545 1472 2519.0 1454.0Q2493 1436 2463 1410Q2364 1323 2248.5 1187.5Q2133 1052 2012.0 891.0Q1891 730 1773.0 564.0Q1655 398 1551 250Q1504 181 1481.5 145.5Q1459 110 1453.0 94.5Q1447 79 1447 67Q1447 25 1505 25Q1534 25 1583.5 39.5Q1633 54 1687.0 81.5Q1741 109 1781 148Q1786 146 1786 135Q1786 120 1781 112Q1738 76 1682.0 50.5Q1626 25 1574.0 11.5Q1522 -2 1488 -2Z"/></symbol><symbol id="lt-e" viewBox="430 -1000 913 982"><path transform="scale(1,-1)" d="M681 18Q666 21 638.5 22.5Q611 24 590 24Q579 24 561.5 23.0Q544 22 520 19Q543 56 564.0 91.0Q585 126 604 159Q527 221 478.5 314.0Q430 407 430 513Q430 627 485.0 703.0Q540 779 622 779Q681 779 730.5 723.5Q780 668 780 564Q780 507 750.0 415.0Q720 323 670 224Q798 422 910.0 562.0Q1022 702 1119.5 803.0Q1217 904 1303 984Q1320 1000 1331 1000Q1343 1000 1343 991Q1343 984 1311 953Q1208 853 1103.0 720.0Q998 587 901.5 434.0Q805 281 727 119Q790 93 860 93Q987 93 1082 174Q1123 211 1147.5 257.0Q1172 303 1172 353Q1172 356 1170 368Q1130 370 1130 404Q1130 415 1139.0 424.0Q1148 433 1161 433Q1207 433 1207 367Q1207 306 1177.5 249.5Q1148 193 1098 152Q993 66 854 66Q785 66 715 94ZM619 188Q687 313 718.5 410.5Q750 508 750 575Q750 652 713.5 695.5Q677 739 633 739Q597 739 563.5 707.0Q530 675 508.5 623.0Q487 571 487 511Q487 413 522.5 329.5Q558 246 619 188Z"/></symbol><symbol id="laco" viewBox="0 0 64 60">
+ <path d="M31 24C20 6 3 4 4 17c1 12 16 14 27 9z" fill="#C1121F"/>
+ <path d="M33 24C44 6 61 4 60 17c-1 12-16 14-27 9z" fill="#C1121F"/>
+ <path d="M29 23C21 11 9 10 9 17c0 7 10 9 20 7M35 23c8-12 20-13 20-6 0 7-10 9-20 7" fill="none" stroke="#C9A54E" stroke-width="1" stroke-dasharray="1.6 1.8" stroke-linecap="round"/>
+ <path d="M29 28c-3 9-10 19-19 27l6 3c8-9 14-19 16-29z" fill="#7F0E1E"/>
+ <path d="M35 28c5 9 13 16 24 24l3-5c-10-6-18-13-23-20z" fill="#C1121F"/>
+ <ellipse cx="32" cy="25" rx="5.5" ry="6.5" fill="#7F0E1E"/>
+ <ellipse cx="31" cy="23.5" rx="2" ry="2.6" fill="#E04A55" opacity=".7"/>
+</symbol><symbol id="catavento" viewBox="0 0 48 56">
+ <g transform="translate(22 22)">
+  <path d="M0 0V-19c8 1 12 6 13 13z" fill="#C1121F"/>
+  <path d="M0 0H19c-1 8-6 12-13 13z" fill="#F1E2B6"/>
+  <path d="M0 0V19c-8-1-12-6-13-13z" fill="#C1121F"/>
+  <path d="M0 0H-19c1-8 6-12 13-13z" fill="#F1E2B6"/>
+  <g fill="none" stroke="#2B1418" stroke-width="1.4" stroke-linejoin="round" opacity=".85">
+   <path d="M0 0V-19c8 1 12 6 13 13zM0 0H19c-1 8-6 12-13 13zM0 0V19c-8-1-12-6-13-13zM0 0H-19c1-8 6-12 13-13z"/></g>
+ </g>
+ <path d="M24 25l14 26" stroke="#C9A54E" stroke-width="3.2" stroke-linecap="round"/>
+ <path d="M30 36l2 4M33 41l2 4" stroke="#2B1418" stroke-width=".8" opacity=".4"/>
+ <circle cx="22" cy="22" r="4" fill="#C9A54E" stroke="#2B1418" stroke-width="1.2"/>
+</symbol><symbol id="catavento-original" viewBox="0 0 48 56">
+ <g transform="translate(22 22)">
+  <path d="M0 0V-19c8 1 12 6 13 13z" fill="#2F7FC1"/>
+  <path d="M0 0H19c-1 8-6 12-13 13z" fill="#F2CB2E"/>
+  <path d="M0 0V19c-8-1-12-6-13-13z" fill="#2F7FC1"/>
+  <path d="M0 0H-19c1-8 6-12 13-13z" fill="#F2CB2E"/>
+  <g fill="none" stroke="#2B1418" stroke-width="1.4" stroke-linejoin="round" opacity=".85">
+   <path d="M0 0V-19c8 1 12 6 13 13zM0 0H19c-1 8-6 12-13 13zM0 0V19c-8-1-12-6-13-13zM0 0H-19c1-8 6-12 13-13z"/></g>
+ </g>
+ <path d="M24 25l14 26" stroke="#D8B44A" stroke-width="3.2" stroke-linecap="round"/>
+ <path d="M30 36l2 4M33 41l2 4" stroke="#2B1418" stroke-width=".8" opacity=".4"/>
+ <circle cx="22" cy="22" r="4" fill="#1F9A5A" stroke="#2B1418" stroke-width="1.2"/>
+</symbol><symbol id="catavento-pas" viewBox="-22 -22 44 44">
+  <g>
+  <path d="M0 0V-19c8 1 12 6 13 13z" fill="#C1121F"/>
+  <path d="M0 0H19c-1 8-6 12-13 13z" fill="#F1E2B6"/>
+  <path d="M0 0V19c-8-1-12-6-13-13z" fill="#C1121F"/>
+  <path d="M0 0H-19c1-8 6-12 13-13z" fill="#F1E2B6"/>
+  <path d="M0 0V-19c8 1 12 6 13 13zM0 0H19c-1 8-6 12-13 13zM0 0V19c-8-1-12-6-13-13zM0 0H-19c1-8 6-12 13-13z" fill="none" stroke="#2B1418" stroke-width="1.4" stroke-linejoin="round" opacity=".85"/>
+  <circle r="4" fill="#C9A54E" stroke="#2B1418" stroke-width="1.2"/></g>
+</symbol><symbol id="medalhao-aberto" viewBox="0 0 260 150">
+ <g transform="translate(76 82) rotate(-9) scale(1.18) translate(-50 -46)">
+   <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" fill="#FFFFFF" stroke="#2B1418" stroke-width="2.4" stroke-linejoin="round"/>
+   <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" transform="translate(50 47) scale(.8) translate(-50 -47)" fill="#F1E2B6" stroke="#C9A54E" stroke-width="1.6"/>
+   <use href="#lt-A" x="25.197303051809794" y="26.5" width="49.60539389638041" height="33" fill="#7F0E1E" stroke="#7F0E1E" stroke-width="12"/>
+  </g>
+ <g transform="translate(184 82) rotate(9) scale(1.18) translate(-50 -46)">
+   <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" fill="#FFFFFF" stroke="#2B1418" stroke-width="2.4" stroke-linejoin="round"/>
+   <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" transform="translate(50 47) scale(.8) translate(-50 -47)" fill="#F1E2B6" stroke="#C9A54E" stroke-width="1.6"/>
+   <use href="#lt-M" x="25.0" y="28.37328094302554" width="50" height="29.253438113948917" fill="#7F0E1E" stroke="#7F0E1E" stroke-width="12"/>
+  </g>
+ <rect x="124" y="56" width="12" height="40" rx="6" fill="#FFFFFF" stroke="#2B1418" stroke-width="2"/>
+ <g fill="#C9A54E"><circle cx="130" cy="66" r="2"/><circle cx="130" cy="76" r="2"/><circle cx="130" cy="86" r="2"/></g>
+ <circle cx="214" cy="30" r="5" fill="none" stroke="#2B1418" stroke-width="2"/>
+ <use href="#laco" x="196" y="-4" width="64" height="60"/>
+</symbol><symbol id="medalhao" viewBox="0 0 120 116">
+ <g transform="translate(6 20)">
+  <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" fill="#FFFFFF" stroke="#2B1418" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" transform="translate(50 47) scale(.8) translate(-50 -47)" fill="#F1E2B6" stroke="#C9A54E" stroke-width="1.6"/>
+  <use href="#lt-A" x="10" y="22" width="45.0958126330731" height="30" fill="#7F0E1E" stroke="#7F0E1E" stroke-width="16"/>
+  <use href="#lt-M" x="40.14237743451981" y="34" width="47.85762256548019" height="28" fill="#7F0E1E" stroke="#7F0E1E" stroke-width="16"/>
+ </g>
+ <circle cx="86" cy="24" r="4.5" fill="none" stroke="#2B1418" stroke-width="2"/>
+ <use href="#laco" x="68" y="-6" width="52" height="49"/>
+</symbol><symbol id="medalhao-mini" viewBox="0 0 100 92">
+ <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" fill="#F1E2B6" stroke="#7F0E1E" stroke-width="6" stroke-linejoin="round"/>
+ <use href="#lt-A" x="8" y="20" width="54.114975159687724" height="36" fill="#7F0E1E" stroke="#7F0E1E" stroke-width="70"/>
+ <use href="#lt-M" x="33.88717259905977" y="34" width="58.11282740094023" height="34" fill="#7F0E1E" stroke="#7F0E1E" stroke-width="70"/>
+</symbol><symbol id="monograma" viewBox="0 0 100 92">
+ <path d="M50 88C20 66 2 48 2 28 2 12 14 2 28 2 38 2 46 8 50 16 54 8 62 2 72 2 86 2 98 12 98 28 98 48 80 66 50 88Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+ <use href="#lt-A" x="14" y="26" width="42.08942512420156" height="28" fill="currentColor"/>
+ <use href="#lt-M" x="41.560779046339825" y="38" width="44.439220953660175" height="26" fill="currentColor"/>
+</symbol></svg>
+
+<noscript><div style="padding:24px;font:17px/1.47 -apple-system,Arial,sans-serif;color:#2B1418;background:#F6D9DC">Este visualizador não consegue rodar o site. Abram o arquivo no Chrome, Safari ou Edge do computador, ou usem o link do GitHub depois de publicar.</div></noscript>
+<!-- ===================== ENTRADA COM SENHA ===================== -->
+<main class="entrada" id="tela-entrada">
+  <div class="entrada-caixa">
+    <svg class="logo medalhao-entrada" viewBox="0 0 260 150" role="img" aria-label="Medalhão de coração aberto com as iniciais A e M e um laço vermelho"><use href="#medalhao-aberto"/></svg>
+    <h1>Nossa casa</h1>
+    <p>O enxoval de vocês dois, num lugar só.</p>
+    <form id="form-senha" novalidate>
+      <div class="grupo">
+        <label class="rotulo" for="quem-login">Quem é você?</label>
+        <select class="entrada-texto" id="quem-login" required></select>
+      </div>
+      <div class="campo-senha">
+        <label class="rotulo" for="senha">Senha</label>
+        <input class="entrada-texto" id="senha" type="password" autocomplete="current-password" required aria-describedby="erro-senha">
+      </div>
+      <p class="erro" id="erro-senha" role="alert"></p>
+      <button class="botao largo" type="submit" id="botao-entrar">Entrar</button>
+    </form>
+    <p class="legenda" id="dica-demo" hidden style="margin-top:18px">Modo demonstração: funciona sem configurar nada, com dados de exemplo.</p>
+  </div>
+</main>
+
+<!-- ===================== APLICATIVO ===================== -->
+<div id="app" hidden>
+  <header class="barra-topo">
+    <div class="dentro">
+      <a class="marca" href="#inventario" aria-label="Nossa casa, ir para o inventário">
+        <svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#medalhao-mini"/></svg>
+        <span class="texto-marca">Nossa casa</span>
+      </a>
+      <button class="icone-btn" id="botao-menu" aria-label="Menu da conta" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1.2-3.6 4-5 7-5s5.8 1.4 7 5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="abas" aria-label="Seções">
+    <button class="aba" data-vista="inventario">
+      <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></svg>Inventário</button>
+    <button class="aba" data-vista="buscar">
+      <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>Buscar</button>
+    <button class="aba" data-vista="compras">
+      <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>Compras</button>
+    <button class="aba" data-vista="estetica">
+      <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.3 0 1.9-.9 1.5-2-.4-1.2.3-2.3 1.6-2.3h1.9a3.5 3.5 0 0 0 3.5-3.6C20.4 7.4 16.6 3.5 12 3.5z"/><circle cx="8" cy="11" r="1.1"/><circle cx="11" cy="7.6" r="1.1"/><circle cx="15.3" cy="8.4" r="1.1"/></svg>Estética</button>
+    <button class="aba" data-vista="ajudante">
+      <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 12V4.5c3.2.4 4.9 2.4 5.2 5.2zM12 12h7.5c-.4 3.2-2.4 4.9-5.2 5.2zM12 12v7.5c-3.2-.4-4.9-2.4-5.2-5.2zM12 12H4.5c.4-3.2 2.4-4.9 5.2-5.2z"/></svg>Ajudante</button>
+  </nav>
+
+  <main id="conteudo">
+    <div class="miolo">
+      <div class="faixa-demo" id="faixa-demo" hidden>Modo demonstração: os dados ficam só neste aparelho até vocês ligarem o site pelo guia.</div>
+
+      <!-- Inventário -->
+      <section class="vista" id="v-inventario" aria-labelledby="t-inventario" hidden>
+        <div class="cabecalho">
+          <div>
+            <h1 class="titulo-grande" id="t-inventario">Inventário</h1>
+            <p class="sub">Tudo o que já mora com vocês.</p>
+          </div>
+          <button class="icone-btn mais" id="add-inventario" aria-label="Adicionar item ao inventário">
+            <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+        <div class="painel" id="painel-progresso"></div>
+        <div class="chips" id="chips-inventario" role="group" aria-label="Filtrar por cômodo"></div>
+        <div id="lista-inventario"></div>
+      </section>
+
+      <!-- Buscar -->
+      <section class="vista" id="v-buscar" aria-labelledby="t-buscar" hidden>
+        <div class="cabecalho">
+          <div>
+            <h1 class="titulo-grande" id="t-buscar">Buscar</h1>
+            <p class="sub">Achem algo lindo para a casa e guardem na lista.</p>
+          </div>
+        </div>
+        <form class="busca-form" id="form-busca" role="search">
+          <div class="busca-campo">
+            <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+            <label class="so-leitor" for="termo">Buscar produtos</label>
+            <input id="termo" type="search" enterkeyhint="search" placeholder="Jogo de panelas, toalhas…" autocomplete="off">
+          </div>
+          <button class="botao" type="submit">Buscar</button>
+        </form>
+        <div class="chips" id="sugestoes" role="group" aria-label="Sugestões de busca"></div>
+        <div id="resultados" aria-live="polite"></div>
+        <p class="legenda nota-busca">Resultados do Google Shopping. Cada busca usa uma das buscas grátis do mês.
+          <button class="link-p" id="add-manual" type="button">Adicionar à lista sem buscar</button></p>
+      </section>
+
+      <!-- Compras -->
+      <section class="vista" id="v-compras" aria-labelledby="t-compras" hidden>
+        <div class="cabecalho">
+          <div>
+            <h1 class="titulo-grande" id="t-compras">Lista de compras</h1>
+            <p class="sub">O que ainda falta para a casa ficar completa.</p>
+          </div>
+        </div>
+        <div id="compras-conteudo"></div>
+      </section>
+
+      <!-- Ajudante -->
+      <section class="vista" id="v-ajudante" aria-labelledby="t-ajudante" hidden>
+        <div class="cabecalho">
+          <div>
+            <h1 class="titulo-grande" id="t-ajudante">Ajudante</h1>
+            <p class="sub">Listas, ideias e pesquisas para a casa.</p>
+          </div>
+          <button class="icone-btn" id="nova-conversa" aria-label="Começar uma nova conversa" hidden>
+            <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>
+          </button>
+        </div>
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <form class="compositor" id="form-chat" novalidate>
+          <div class="caixa-chat">
+            <label class="so-leitor" for="msg-chat">Mensagem para o Ajudante</label>
+            <textarea id="msg-chat" rows="1" placeholder="Peçam uma lista, uma ideia ou uma pesquisa…" enterkeyhint="send"></textarea>
+            <div class="linha-chat">
+              <button type="button" class="pilula-web" id="toggle-web" aria-pressed="true">
+                <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.5 5.3 3.5 8.5s-1.1 6-3.5 8.5c-2.4-2.5-3.5-5.3-3.5-8.5S9.6 6 12 3.5z"/></svg>
+                Pesquisar na web</button>
+              <button type="submit" class="enviar" id="enviar-chat" aria-label="Enviar mensagem" disabled>
+                <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Estética -->
+      <section class="vista" id="v-estetica" aria-labelledby="t-estetica" hidden>
+        <div class="cabecalho">
+          <div>
+            <h1 class="titulo-grande" id="t-estetica">Estética da casa</h1>
+            <p class="sub">Cores, materiais e referências que vocês amam.</p>
+          </div>
+          <button class="icone-btn mais" id="add-estetica" aria-label="Adicionar à estética">
+            <svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+        <div class="chips" id="chips-estetica" role="group" aria-label="Filtrar por cômodo"></div>
+        <div id="estetica-conteudo"></div>
+      </section>
+      <footer class="rodape">
+        <svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg>
+        <p>A casa de A e M</p>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<dialog class="folha" id="folha" aria-labelledby="folha-titulo"><div class="folha-dentro" id="folha-dentro"></div></dialog>
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+<script>
+/* =================================================================
+   CONFIGURAÇÃO — é só isto que vocês precisam preencher (veja o GUIA)
+   ================================================================= */
+const CONFIG = {
+  supabaseUrl: "https://wrbalmowsbzdzlpxnawe.supabase.co/rest/v1/",          // ex.: "https://abcdefgh.supabase.co"
+  supabaseChave: "sb_publishable_j6mcmcY4t-zpyGUq-l9jVw_DU9NG31U",        // a chave "publishable" (ou "anon") do Supabase
+  // Cada pessoa: o nome que aparece no site e o e-mail da conta criada no Supabase.
+  // A senha NÃO fica aqui: ela é definida no Supabase (passo 2 do guia).
+  usuarios: [
+    { nome: "Ana",     email: "annabaiekoliveira@gmail.com" },
+    { nome: "Gabriel", email: "mauriciogvalefogaca@gmail.com.com" }
+  ],
+  // Só para o modo demonstração (sem Supabase). Não é usado quando o site está ligado.
+  demoSenhas: { "Ana": "anazemane", "Gabriel": "mauriciotongo" }
+};
+const NOMES = CONFIG.usuarios.map(u => u.nome);
+const emailDe = (nome) => (CONFIG.usuarios.find(u => u.nome === nome) || {}).email || "";
+const nomePorEmail = (email) => { const e = String(email || "").trim().toLowerCase(); const u = CONFIG.usuarios.find(x => x.email.trim().toLowerCase() === e); return u ? u.nome : ""; };
+/* ================================================================= */
+
+const MODO_DEMO = !String(CONFIG.supabaseUrl || "").trim() && !String(CONFIG.supabaseChave || "").trim();
+const EMAILS_PENDENTES = CONFIG.usuarios.some(u => !u.email || /@exemplo\.com$/i.test(u.email.trim()));
+const CONFIG_INCOMPLETA = !MODO_DEMO && (!String(CONFIG.supabaseUrl).trim() || !String(CONFIG.supabaseChave).trim() || EMAILS_PENDENTES);
+const SEM_BIBLIOTECA = !MODO_DEMO && typeof window.supabase === "undefined";
+const COMODOS = ["Cozinha","Sala","Quarto","Banheiro","Lavanderia","Escritório","Área externa","Outros"];
+const CORES_GRAFICO = ["#C1121F","#7F0E1E","#E8737D","#4A1C24","#F0A9B0","#A33A48","#D9C2C5","#5E2A31"];
+const SUGESTOES = ["Jogo de panelas","Toalhas de banho","Jogo de cama casal","Air fryer","Taças de vinho","Tapete para sala","Faqueiro","Edredom"];
+const PALAVRAS_COMODO = {
+  "Cozinha":["panela","faca","faqueiro","prato","copo","taça","talher","air fryer","fritadeira","liquidificador","batedeira","cafeteira","micro","geladeira","fogão","pote","assadeira","frigideira","chaleira","tábua","escorredor","xícara","caneca","sanduicheira","torradeira"],
+  "Quarto":["lençol","cama","edredom","travesseiro","colcha","cobertor","fronha","colchão","guarda-roupa","cabide","abajur"],
+  "Banheiro":["toalha","tapete de banheiro","saboneteira","box","escova","lixeira de banheiro","roupão"],
+  "Sala":["sofá","almofada","tapete","cortina","rack","mesa de centro","poltrona","quadro","luminária","vaso"],
+  "Lavanderia":["varal","ferro","tábua de passar","balde","vassoura","rodo","cesto","aspirador","máquina de lavar","mop"],
+  "Escritório":["cadeira de escritório","escrivaninha","monitor","estante"],
+  "Área externa":["churrasqueira","planta","rede","cadeira de praia","mangueira"]
+};
+
+/* ---------- utilidades ---------- */
+// Funciona mesmo quando o site é aberto de um jeito "não seguro" (arquivo pelo celular, rede local)
+const novoId = () => {
+  if (window.crypto && crypto.randomUUID) { try { return crypto.randomUUID(); } catch {} }
+  const b = new Uint8Array(16);
+  if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(b); else for (let i = 0; i < 16; i++) b[i] = Math.random() * 256 | 0;
+  b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+  const h = [...b].map(x => x.toString(16).padStart(2, "0")).join("");
+  return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+};
+// Se o navegador bloquear o armazenamento, guarda na memória (some ao fechar)
+const guardado = (() => {
+  const memoria = {};
+  return {
+    get(k){ try { return localStorage.getItem(k); } catch { return k in memoria ? memoria[k] : null; } },
+    set(k, v){
+      try { localStorage.setItem(k, v); return true; }
+      catch (e) {
+        if (e && (e.name === "QuotaExceededError" || e.code === 22 || /quota/i.test(e.message || ""))) return false; // cheio
+        memoria[k] = String(v); return true;                                                                    // bloqueado
+      }
+    },
+    del(k){ try { localStorage.removeItem(k); } catch {} delete memoria[k]; }
+  };
+})();
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = (t) => String(t ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const urlSegura = (u) => { if (!u) return ""; try { const x = new URL(u, location.href); return ["http:","https:","data:","blob:"].includes(x.protocol) ? x.href : ""; } catch { return ""; } };
+const linkSeguro = (u) => { u = String(u || "").trim(); if (!u) return ""; if (!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = "https://" + u; try { const x = new URL(u); return ["http:","https:"].includes(x.protocol) ? x.href : ""; } catch { return ""; } };
+const dinheiro = new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"});
+const reais = (v) => dinheiro.format(Number(v)||0);
+const reaisCurto = (v, limite = 10000) => { v = Number(v)||0; return v >= limite ? "R$ " + (v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1}) + " mil" : reais(v).replace(/,00$/,""); };
+const numeroBR = (t) => { if (t === "" || t == null) return null; const n = Number(String(t).replace(/[^\d,.-]/g,"").replace(/\.(?=\d{3}(\D|$))/g,"").replace(",", ".")); return isFinite(n) ? n : null; };
+const quem = () => guardado.get("nc-quem") || "";
+const adivinharComodo = (texto) => {
+  const t = (texto||"").toLowerCase();
+  for (const [c, palavras] of Object.entries(PALAVRAS_COMODO)) if (palavras.some(p => t.includes(p))) return c;
+  return "Outros";
+};
+function avisar(texto){
+  const a = $("#aviso"); a.textContent = texto; a.classList.add("ver");
+  clearTimeout(avisar.t); avisar.t = setTimeout(() => a.classList.remove("ver"), 2800);
+}
+const ICONE = {
+  link:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true" style="width:16px;height:16px"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  check:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true" style="width:16px;height:16px"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  fechar:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  camera:'<svg viewBox="0 0 24 24" class="ic" aria-hidden="true" style="width:28px;height:28px"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.8" r="3.4"/></svg>'
+};
+
+/* ---------- desenho da casa (a peça principal do visual) ---------- */
+function casaSVG(pct, id){
+  const topo = 18, chao = 156, nivel = chao - (chao - topo) * Math.max(0, Math.min(1, pct));
+  return `<svg class="casa${pct >= 1 ? " completa" : ""}" viewBox="0 0 200 170" role="img" aria-label="Casa ${Math.round(pct*100)}% completa">
+    <defs><clipPath id="sil-${id}"><path d="M30 80 100 20l70 60v76H30z"/></clipPath></defs>
+    <g clip-path="url(#sil-${id})"><rect class="agua" x="20" width="160" height="160" y="${(casaSVG.ultimo && casaSVG.ultimo[id]) || chao}" data-nivel="${nivel}"/></g>
+    <path class="contorno" d="M10 156h180M30 156V80M170 156V80M20 88 100 18l80 70"/>
+    <path class="contorno" d="M136 49V30h14v31"/>
+    <rect class="janela" x="48" y="92" width="26" height="26" rx="2"/><path class="contorno" d="M61 92v26M48 105h26" style="stroke-width:1.6"/>
+    <rect class="janela" x="126" y="92" width="26" height="26" rx="2"/><path class="contorno" d="M139 92v26M126 105h26" style="stroke-width:1.6"/>
+    <path class="janela" d="M88 156v-30a12 12 0 0 1 24 0v30"/>
+    <path class="coracao" d="M143 18s-7-4.4-7-9a3.7 3.7 0 0 1 7-1.8A3.7 3.7 0 0 1 150 9c0 4.6-7 9-7 9z"/>
+  </svg>`;
+}
+function encherCasa(el){
+  const agua = el.querySelector(".agua"); if (!agua) return;
+  const alvo = Number(agua.dataset.nivel), inicio = Number(agua.getAttribute("y")) || 156;
+  const id = (el.querySelector("clipPath") || {}).id; casaSVG.ultimo = casaSVG.ultimo || {};
+  if (id) casaSVG.ultimo[id.replace("sil-","")] = alvo;
+  if (Math.abs(alvo - inicio) < .5) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches){ agua.setAttribute("y", alvo); return; }
+  const t0 = performance.now(), dur = 1100;
+  const passo = (t) => {
+    const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    agua.setAttribute("y", inicio + (alvo - inicio) * e);
+    if (p < 1) requestAnimationFrame(passo);
+  };
+  requestAnimationFrame(passo);
+}
+
+window.addEventListener("error", e => avisar("Algo deu errado: " + (e.message || "erro desconhecido")));
+window.addEventListener("unhandledrejection", e => avisar("Algo deu errado: " + ((e.reason && e.reason.message) || "erro desconhecido")));
+
+/* =================================================================
+   CAMADA DE DADOS — Supabase (de verdade) ou demonstração (local)
+   ================================================================= */
+const sb = (MODO_DEMO || CONFIG_INCOMPLETA || SEM_BIBLIOTECA) ? null : window.supabase.createClient(CONFIG.supabaseUrl.trim(), CONFIG.supabaseChave.trim());
+
+const demo = {
+  ler(t){ try { return JSON.parse(guardado.get("nc-demo-"+t)) || null; } catch { return null; } },
+  gravar(t, v){ if (!guardado.set("nc-demo-"+t, JSON.stringify(v))) throw new Error("espaco"); },
+  semente(){
+    if (this.ler("itens")) return;
+    const agora = Date.now(), d = (n) => new Date(agora - n*864e5).toISOString();
+    const id = novoId;
+    this.gravar("itens", [
+      {id:id(),criado_em:d(1),nome:"Jogo de panelas inox 5 peças",comodo:"Cozinha",status:"quero",quantidade:1,preco:489.9,loja:"Loja exemplo",link:"https://example.com",foto_url:"",nota:"",adicionado_por:"Gabriel"},
+      {id:id(),criado_em:d(2),nome:"Jogo de cama percal 400 fios",comodo:"Quarto",status:"quero",quantidade:2,preco:259,loja:"Loja exemplo",link:"https://example.com",foto_url:"",nota:"Um branco e um rosé",adicionado_por:"Ana"},
+      {id:id(),criado_em:d(3),nome:"Toalhas de banho algodão egípcio",comodo:"Banheiro",status:"quero",quantidade:4,preco:89.9,loja:"Loja exemplo",link:"https://example.com",foto_url:"",nota:"",adicionado_por:"Gabriel"},
+      {id:id(),criado_em:d(5),nome:"Air fryer 5 litros",comodo:"Cozinha",status:"tenho",quantidade:1,preco:399,loja:"",link:"",foto_url:"",nota:"Presente da mãe",adicionado_por:"Ana"},
+      {id:id(),criado_em:d(6),nome:"Taças de vinho de cristal",comodo:"Cozinha",status:"tenho",quantidade:6,preco:35,loja:"",link:"",foto_url:"",nota:"",adicionado_por:"Gabriel"},
+      {id:id(),criado_em:d(7),nome:"Tapete de linho para a sala",comodo:"Sala",status:"quero",quantidade:1,preco:720,loja:"Loja exemplo",link:"https://example.com",foto_url:"",nota:"2,00 x 2,50",adicionado_por:"Gabriel"},
+      {id:id(),criado_em:d(8),nome:"Varal de chão",comodo:"Lavanderia",status:"tenho",quantidade:1,preco:119,loja:"",link:"",foto_url:"",nota:"",adicionado_por:"Ana"}
+    ]);
+    this.gravar("estetica", [
+      {id:id(),criado_em:d(1),tipo:"cor",titulo:"Linho cru",valor:"#E9E1D6",comodo:"Sala",nota:""},
+      {id:id(),criado_em:d(1),tipo:"cor",titulo:"Vermelho terra",valor:"#9E2B25",comodo:"Sala",nota:""},
+      {id:id(),criado_em:d(1),tipo:"cor",titulo:"Freijó",valor:"#A57A52",comodo:"Quarto",nota:""},
+      {id:id(),criado_em:d(1),tipo:"cor",titulo:"Branco gelo",valor:"#F7F5F2",comodo:"Cozinha",nota:""},
+      {id:id(),criado_em:d(1),tipo:"cor",titulo:"Grafite",valor:"#3A3838",comodo:"Banheiro",nota:""},
+      {id:id(),criado_em:d(2),tipo:"material",titulo:"Madeira freijó",comodo:"Quarto"},
+      {id:id(),criado_em:d(2),tipo:"material",titulo:"Linho",comodo:"Sala"},
+      {id:id(),criado_em:d(2),tipo:"material",titulo:"Granilite",comodo:"Banheiro"},
+      {id:id(),criado_em:d(2),tipo:"material",titulo:"Palhinha",comodo:"Sala"}
+    ]);
+  }
+};
+
+const db = {
+  async entrar(nome, senha){
+    if (MODO_DEMO){
+      if (!CONFIG.demoSenhas[nome] || CONFIG.demoSenhas[nome] !== senha) throw new Error("senha");
+      guardado.set("nc-demo-logado", nome); guardado.set("nc-quem", nome); return;
+    }
+    const { error } = await sb.auth.signInWithPassword({ email: emailDe(nome), password: senha });
+    if (error){
+      const m = (error.code || "") + " " + (error.message || "");
+      throw new Error(/not.?confirmed/i.test(m) ? "confirmar" : /rate.?limit|too many/i.test(m) ? "espera" : /invalid|credentials/i.test(m) ? "senha" : "rede");
+    }
+  },
+  async sessao(){
+    if (MODO_DEMO) return guardado.get("nc-demo-logado") || "";
+    const { data } = await sb.auth.getSession();
+    return data.session ? nomePorEmail(data.session.user.email) : "";
+  },
+  async sair(){
+    guardado.del("nc-quem");
+    if (MODO_DEMO){ guardado.del("nc-demo-logado"); return; }
+    await sb.auth.signOut();
+  },
+  async listar(t){
+    if (MODO_DEMO){ demo.semente(); return (demo.ler(t)||[]).sort((a,b)=> b.criado_em.localeCompare(a.criado_em)); }
+    const { data, error } = await sb.from(t).select("*").order("criado_em",{ascending:false});
+    if (error) throw error; return data;
+  },
+  async inserir(t, obj){
+    obj = { ...obj, adicionado_por: obj.adicionado_por || quem() || null };
+    if (MODO_DEMO){ const l = demo.ler(t)||[]; const n = {id:novoId(),criado_em:new Date().toISOString(),...obj}; l.push(n); demo.gravar(t,l); return n; }
+    const { data, error } = await sb.from(t).insert(obj).select().single();
+    if (error) throw error; return data;
+  },
+  async atualizar(t, id, campos){
+    if (MODO_DEMO){ const l = (demo.ler(t)||[]).map(x => x.id === id ? {...x,...campos} : x); demo.gravar(t,l); return; }
+    const { error } = await sb.from(t).update(campos).eq("id", id); if (error) throw error;
+  },
+  async remover(t, id, fotoUrl){
+    if (MODO_DEMO){ demo.gravar(t, (demo.ler(t)||[]).filter(x => x.id !== id)); return; }
+    const { error } = await sb.from(t).delete().eq("id", id); if (error) throw error;
+    await this.apagarFoto(fotoUrl);
+  },
+  async apagarFoto(url){
+    const marca = "/storage/v1/object/public/fotos/";
+    if (MODO_DEMO || !url || !url.includes(marca)) return;
+    try { await sb.storage.from("fotos").remove([decodeURIComponent(url.split(marca)[1])]); } catch (e) { console.warn(e); }
+  },
+  async enviarFoto(arquivo){
+    const blob = await comprimir(arquivo, MODO_DEMO ? 700 : 1400, MODO_DEMO ? .7 : .82);
+    if (MODO_DEMO) return await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); });
+    const caminho = `${new Date().getFullYear()}/${novoId()}.jpg`;
+    const { error } = await sb.storage.from("fotos").upload(caminho, blob, { contentType:"image/jpeg", cacheControl:"31536000" });
+    if (error) throw error;
+    return sb.storage.from("fotos").getPublicUrl(caminho).data.publicUrl;
+  },
+  async buscarProdutos(q){
+    if (MODO_DEMO){
+      await new Promise(r => setTimeout(r, 700));
+      const tons = ["#F6D9DC","#EFDFE1","#E9E1D6","#F3E6E8"];
+      return Array.from({length:8}, (_, i) => ({
+        titulo: `${q} — opção ${i+1} (exemplo)`, preco: Math.round((79 + i*57.3)*100)/100,
+        loja: ["Loja A","Loja B","Loja C"][i%3], link: "https://example.com/produto-" + (i+1),
+        foto: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='${tons[i%4]}'/><text x='50' y='58' font-family='Georgia' font-size='26' text-anchor='middle' fill='#C1121F'>${i+1}</text></svg>`),
+        nota: 4 + (i%10)/10, avaliacoes: 20 + i*13
+      }));
+    }
+    const { data, error } = await sb.functions.invoke("buscar", { body: { q } });
+    if (error){
+      let msg = "";
+      try { const corpo = await error.context.json(); msg = corpo.erro || ""; } catch { /* sem corpo */ }
+      const e = new Error(msg || error.message);
+      e.status = error.context && error.context.status; e.servidor = msg; throw e;
+    }
+    return data.itens || [];
+  },
+  ouvirMudancas(fn){
+    if (MODO_DEMO) return;
+    sb.channel("casa").on("postgres_changes",{event:"*",schema:"public",table:"itens"},fn)
+      .on("postgres_changes",{event:"*",schema:"public",table:"estetica"},fn).subscribe();
+  }
+};
+
+/* Traduz erros do Supabase para algo que dá para resolver */
+function sessaoVencida(e){ return !!e && (e.status === 401 || /jwt|PGRST30[123]/i.test((e.code || "") + " " + (e.message || ""))); }
+function mensagemErro(e, padrao){
+  const t = ((e && e.code) || "") + " " + ((e && e.message) || "");
+  if (sessaoVencida(e)) return "A sessão expirou. Toquem no ícone de pessoa, saiam e entrem de novo.";
+  if (/42501|row-level security|permission denied|Unauthorized/i.test(t)) return "Esta conta não tem permissão para salvar. Confiram se o e-mail do passo 3 do guia é o mesmo do passo 2.";
+  if (/exceeded|too large|payload/i.test(t)) return "A foto é grande demais. Tentem outra imagem.";
+  if (e && e.message === "foto") return "Não deu para ler essa foto. Tentem outra imagem.";
+  if (e && e.message === "espaco") return "A demonstração ficou sem espaço para fotos neste aparelho.";
+  return padrao;
+}
+
+/* Reduz a foto antes de enviar (fica leve e rápida no celular) */
+function comprimir(arquivo, max, qualidade){
+  return new Promise((ok, falha) => {
+    const img = new Image(), url = URL.createObjectURL(arquivo);
+    img.onload = () => {
+      const escala = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * escala); c.height = Math.round(img.height * escala);
+      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0,0,c.width,c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(b => b ? ok(b) : falha(new Error("foto")), "image/jpeg", qualidade);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); falha(new Error("foto")); };
+    img.src = url;
+  });
+}
+
+/* =================================================================
+   ESTADO E NAVEGAÇÃO
+   ================================================================= */
+const estado = { itens: [], estetica: [], filtroInv: "Todos", filtroEst: "Todos", resultados: null, buscando: false, erroBusca: "", ultimoTermo: "", animou: false };
+const VISTAS = ["inventario","buscar","compras","estetica","ajudante"];
+
+function vistaAtual(){ const h = location.hash.slice(1); return VISTAS.includes(h) ? h : "inventario"; }
+function mostrarVista(){
+  const v = vistaAtual(); document.body.dataset.vista = v;
+  VISTAS.forEach(n => { const s = $("#v-"+n); const ativa = n === v; s.hidden = !ativa; if (ativa){ s.classList.remove("entrou"); void s.offsetWidth; s.classList.add("entrou"); } });
+  $$(".aba").forEach(b => { if (b.dataset.vista === v) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
+  window.scrollTo({top:0});
+  if (v === "inventario") { const c = $("#painel-progresso .casa"); if (c) encherCasa(c); }
+  if (v === "ajudante") { renderChat(); if (chat.msgs.length) rolarChat(); }
+}
+$$(".aba").forEach(b => b.addEventListener("click", () => { location.hash = b.dataset.vista; }));
+window.addEventListener("hashchange", mostrarVista);
+
+async function carregar(){
+  try {
+    const [itens, estetica] = await Promise.all([db.listar("itens"), db.listar("estetica")]);
+    estado.itens = itens; estado.estetica = estetica; renderTudo();
+  } catch (e){
+    console.error(e);
+    if (!MODO_DEMO && sessaoVencida(e)){ await db.sair(); location.reload(); return; }
+    avisar(MODO_DEMO ? "Não deu para abrir a demonstração: " + (e.message || e) : mensagemErro(e, "Não deu para carregar os dados. Confiram a internet."));
+  }
+}
+function renderTudo(){ renderInventario(); renderResultados(); renderCompras(); renderEstetica(); }
+
+/* =================================================================
+   INVENTÁRIO
+   ================================================================= */
+function contar(lista){ return lista.reduce((s,i) => s + (Number(i.quantidade)||1), 0); }
+function chipsHTML(selecionado, comodosUsados){
+  return ["Todos", ...COMODOS.filter(c => comodosUsados.has(c))].map(c =>
+    `<button class="chip" data-comodo="${esc(c)}" aria-pressed="${c === selecionado}">${esc(c)}</button>`).join("");
+}
+function fotoHTML(i, contida){
+  const u = urlSegura(i.foto_url || "");
+  const inicial = esc((i.nome || "?").trim().charAt(0).toUpperCase());
+  return `<div class="foto${contida ? " contida" : ""}">${u ? `<img src="${esc(u)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<span class="inicial" aria-hidden="true">${inicial}</span></div>`;
+}
+function renderInventario(){
+  const tenho = estado.itens.filter(i => i.status === "tenho");
+  const total = contar(estado.itens), ja = contar(tenho);
+  const pct = total ? ja / total : 0;
+  const painel = $("#painel-progresso");
+  const porComodo = COMODOS.map(c => {
+    const l = estado.itens.filter(i => i.comodo === c); return { c, total: contar(l), ja: contar(l.filter(i => i.status === "tenho")) };
+  }).filter(x => x.total);
+  painel.innerHTML = `
+    <div>${casaSVG(pct, "inv")}</div>
+    <div>
+      <p class="porcentagem numero">${Math.round(pct*100)}<small>%</small></p>
+      <div class="trilho" role="progressbar" aria-label="Progresso do enxoval" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct*100)}"><span style="width:${pct*100}%"></span></div>
+      <p class="pequeno" style="margin:0">${total ? `${ja} de ${total} itens já são de vocês.` : "Adicionem itens pela busca para ver a casa se encher."}</p>
+    </div>
+    ${porComodo.length ? `<div class="comodos-prog">${porComodo.map(x => `
+      <div class="comodo-linha"><span>${esc(x.c)}</span>
+        <div class="trilho" aria-hidden="true"><span style="width:${x.ja/x.total*100}%"></span></div>
+        <span class="legenda numero">${x.ja}/${x.total}</span></div>`).join("")}</div>` : ""}`;
+  const casa = $(".casa", painel);
+  if (!$("#v-inventario").hidden) encherCasa(casa); else { const a = $(".agua", casa); a.setAttribute("y", a.dataset.nivel); }
+
+  const usados = new Set(tenho.map(i => i.comodo));
+  if (estado.filtroInv !== "Todos" && !usados.has(estado.filtroInv)) estado.filtroInv = "Todos";
+  const chips = $("#chips-inventario");
+  chips.hidden = usados.size < 2;
+  chips.innerHTML = chipsHTML(estado.filtroInv, usados);
+  const lista = tenho.filter(i => estado.filtroInv === "Todos" || i.comodo === estado.filtroInv);
+  $("#lista-inventario").innerHTML = lista.length ? `<div class="grade">${lista.map(i => `
+    <button class="item" data-id="${esc(i.id)}" aria-label="${esc(i.nome)}, ${esc(i.comodo)}, editar">
+      ${fotoHTML(i)}
+      <h2>${esc(i.nome)}</h2>
+      <span class="legenda">${esc(i.comodo)}${(i.quantidade||1) > 1 ? `, ${i.quantidade} unidades` : ""}</span>
+    </button>`).join("")}</div>`
+  : `<div class="vazio"><svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg><h2>A casa ainda está esperando</h2><p>Adicionem o primeiro item que já é de vocês, com uma foto se quiserem.</p><button class="botao" data-acao="novo-item">Adicionar item</button></div>`;
+}
+$("#chips-inventario").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; estado.filtroInv = b.dataset.comodo; renderInventario(); });
+$("#lista-inventario").addEventListener("click", e => {
+  if (e.target.closest("[data-acao='novo-item']")) return formItem({ status: "tenho" });
+  const b = e.target.closest(".item"); if (!b) return;
+  const item = estado.itens.find(i => i.id === b.dataset.id); if (item) formItem(item);
+});
+$("#add-inventario").addEventListener("click", () => formItem({ status: "tenho" }));
+
+/* =================================================================
+   FOLHA (bottom sheet) — formulários
+   ================================================================= */
+const folha = $("#folha");
+function abrirFolha(titulo, corpo){
+  $("#folha-dentro").innerHTML = `<div class="puxador" aria-hidden="true"></div>
+    <div class="folha-topo"><h2 id="folha-titulo">${esc(titulo)}</h2>
+      <button class="icone-btn" data-fechar aria-label="Fechar">${ICONE.fechar}</button></div>${corpo}`;
+  if (!folha.open) folha.showModal();
+  $("#folha-dentro").scrollTop = 0;
+}
+function fecharFolha(){ if (folha.open) folha.close(); }
+folha.addEventListener("click", e => { if (e.target === folha || e.target.closest("[data-fechar]")) fecharFolha(); });
+
+function campoFoto(url){
+  const u = urlSegura(url || "");
+  return `<label class="escolher-foto" for="arquivo-foto">
+      ${u ? `<img src="${esc(u)}" alt="Foto atual">` : ""}
+      <span class="dica"${u ? " hidden" : ""}>${ICONE.camera}<span>Adicionar foto</span></span>
+    </label>
+    <input type="file" id="arquivo-foto" accept="image/*" class="so-leitor">`;
+}
+function ligarFoto(){
+  const inp = $("#arquivo-foto"); if (!inp) return;
+  inp.addEventListener("change", () => {
+    const f = inp.files[0]; if (!f) return;
+    const caixa = $(".escolher-foto"); let img = $("img", caixa);
+    if (!img){ img = document.createElement("img"); caixa.prepend(img); }
+    img.src = URL.createObjectURL(f); img.alt = "Foto escolhida";
+    $(".dica", caixa).hidden = true;
+  });
+}
+function opcoesComodo(sel){ return COMODOS.map(c => `<option${c === sel ? " selected" : ""}>${esc(c)}</option>`).join(""); }
+
+function formItem(item){
+  const novo = !item.id;
+  const titulo = novo ? (item.status === "tenho" ? "Novo item" : "Adicionar à lista") : "Editar item";
+  abrirFolha(titulo, `
+    <form id="form-item" novalidate>
+      ${campoFoto(item.foto_url)}
+      <div class="grupo"><label class="rotulo" for="f-nome">Nome</label>
+        <input class="entrada-texto" id="f-nome" required value="${esc(item.nome||"")}" placeholder="Ex.: Jogo de panelas"></div>
+      <div class="duas-col">
+        <div class="grupo"><label class="rotulo" for="f-comodo">Cômodo</label>
+          <select class="entrada-texto" id="f-comodo">${opcoesComodo(item.comodo || "Cozinha")}</select></div>
+        <div class="grupo"><label class="rotulo" for="f-qtd">Quantidade</label>
+          <input class="entrada-texto" id="f-qtd" type="number" inputmode="numeric" min="1" value="${esc(item.quantidade||1)}"></div>
+      </div>
+      <div class="duas-col">
+        <div class="grupo"><label class="rotulo" for="f-preco">Preço (opcional)</label>
+          <input class="entrada-texto" id="f-preco" inputmode="decimal" value="${item.preco != null ? esc(String(item.preco).replace(".",",")) : ""}" placeholder="R$ 0,00"></div>
+        <div class="grupo"><label class="rotulo" for="f-status">Situação</label>
+          <select class="entrada-texto" id="f-status">
+            <option value="tenho"${item.status === "tenho" ? " selected" : ""}>Já temos</option>
+            <option value="quero"${item.status !== "tenho" ? " selected" : ""}>Vamos comprar</option>
+          </select></div>
+      </div>
+      <div class="grupo"><label class="rotulo" for="f-link">Link da loja (opcional)</label>
+        <input class="entrada-texto" id="f-link" type="url" inputmode="url" value="${esc(item.link||"")}" placeholder="https://"></div>
+      <div class="grupo"><label class="rotulo" for="f-nota">Observação (opcional)</label>
+        <textarea class="entrada-texto" id="f-nota" placeholder="Cor, medida, quem deu de presente…">${esc(item.nota||"")}</textarea></div>
+      <p class="erro" id="erro-item" role="alert"></p>
+      <div class="rodape-folha">
+        <button class="botao largo" type="submit">${novo ? "Salvar item" : "Salvar alterações"}</button>
+        ${novo ? "" : `<button class="botao perigo largo" type="button" id="excluir-item">Excluir item</button>`}
+        ${!novo && item.adicionado_por ? `<p class="legenda" style="text-align:center;margin:4px 0 0">Adicionado por ${esc(item.adicionado_por)}</p>` : ""}
+      </div>
+    </form>`);
+  ligarFoto();
+  $("#form-item").addEventListener("submit", async e => {
+    e.preventDefault();
+    const nome = $("#f-nome").value.trim();
+    if (!nome){ $("#erro-item").textContent = "Escrevam o nome do item para salvar."; $("#f-nome").focus(); return; }
+    const botao = $("#form-item [type=submit]"); botao.disabled = true; botao.textContent = "Salvando…";
+    try {
+      let foto_url = item.foto_url || "";
+      const arq = $("#arquivo-foto").files[0];
+      if (arq) foto_url = await db.enviarFoto(arq);
+      const statusNovo = $("#f-status").value;
+      const campos = { nome, comodo: $("#f-comodo").value, quantidade: Math.max(1, parseInt($("#f-qtd").value) || 1),
+        preco: numeroBR($("#f-preco").value), status: statusNovo, link: linkSeguro($("#f-link").value.trim()) || null,
+        nota: $("#f-nota").value.trim() || null, foto_url: foto_url || null };
+      if (statusNovo === "tenho" && item.status !== "tenho") campos.comprado_em = new Date().toISOString();
+      if (novo) await db.inserir("itens", { ...campos, loja: item.loja || null });
+      else { await db.atualizar("itens", item.id, campos); if (arq && item.foto_url) db.apagarFoto(item.foto_url); }
+      fecharFolha(); await carregar();
+      avisar(novo ? (statusNovo === "tenho" ? "Item salvo no inventário." : "Item adicionado à lista.") : "Alterações salvas.");
+    } catch (err){
+      console.error(err); botao.disabled = false; botao.textContent = novo ? "Salvar item" : "Salvar alterações";
+      $("#erro-item").textContent = mensagemErro(err, "Não deu para salvar. Confiram a internet e tentem de novo.");
+    }
+  });
+  const ex = $("#excluir-item");
+  if (ex) ex.addEventListener("click", async () => {
+    if (!ex.dataset.confirmar){ ex.dataset.confirmar = "1"; ex.textContent = `Toque de novo para excluir "${item.nome}"`; return; }
+    try { await db.remover("itens", item.id, item.foto_url); fecharFolha(); await carregar(); avisar("Item excluído."); }
+    catch (err){ console.error(err); $("#erro-item").textContent = mensagemErro(err, "Não deu para excluir agora. Tentem de novo."); }
+  });
+}
+
+/* =================================================================
+   BUSCAR (Google Shopping)
+   ================================================================= */
+$("#sugestoes").innerHTML = SUGESTOES.map(s => `<button class="chip" type="button" data-termo="${esc(s)}">${esc(s)}</button>`).join("");
+$("#sugestoes").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; $("#termo").value = b.dataset.termo; buscar(b.dataset.termo); });
+$("#form-busca").addEventListener("submit", e => { e.preventDefault(); const q = $("#termo").value.trim(); if (q) { $("#termo").blur(); buscar(q); } else $("#termo").focus(); });
+$("#add-manual").addEventListener("click", () => formItem({ status: "quero", comodo: adivinharComodo($("#termo").value) }));
+
+async function buscar(q){
+  estado.buscando = true; estado.erroBusca = ""; estado.ultimoTermo = q; renderResultados();
+  try { estado.resultados = await db.buscarProdutos(q); }
+  catch (e){
+    console.error(e); estado.resultados = null;
+    const m = (e.servidor || "").toLowerCase();
+    if (e.status === 404 && !e.servidor) estado.erroBusca = "A busca ainda não foi ligada. Vejam o passo 4.2 do guia (o nome da função tem que ser buscar).";
+    else if (m.includes("run out") || m.includes("searches per")) estado.erroBusca = "As buscas grátis deste mês acabaram. Vocês ainda podem adicionar itens sem buscar.";
+    else if (m.includes("invalid api key")) estado.erroBusca = "A chave da SerpApi está errada. Confiram o segredo SERPAPI_KEY (passo 4.3 do guia).";
+    else if (e.status === 401) estado.erroBusca = "A sessão expirou. Toquem no ícone de pessoa, saiam e entrem de novo.";
+    else if (e.servidor && /[ãçéêíóôõú]/i.test(e.servidor)) estado.erroBusca = e.servidor;
+    else estado.erroBusca = "Não deu para buscar agora. Confiram a internet e tentem de novo.";
+  }
+  estado.buscando = false; renderResultados();
+}
+function jaNaLista(r){ return estado.itens.some(i => (r.link && i.link === r.link) || i.nome === r.titulo); }
+function renderResultados(){
+  const alvo = $("#resultados");
+  if (estado.buscando){ alvo.innerHTML = `<p class="so-leitor">Buscando…</p><div class="carregando" aria-hidden="true">${"<div class='esqueleto'></div>".repeat(4)}</div>`; return; }
+  if (estado.erroBusca){ alvo.innerHTML = `<div class="vazio"><svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg><h2>Busca indisponível</h2><p>${esc(estado.erroBusca)}</p></div>`; return; }
+  if (!estado.resultados){ alvo.innerHTML = ""; return; }
+  if (!estado.resultados.length){ alvo.innerHTML = `<div class="vazio"><svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg><h2>Nada encontrado</h2><p>Tentem outras palavras, como o tipo do produto sem a marca.</p></div>`; return; }
+  alvo.innerHTML = `<p class="pequeno" style="margin:0 0 14px">${estado.resultados.length} resultados para “${esc(estado.ultimoTermo)}”</p>
+  <div class="grade">${estado.resultados.map((r, n) => {
+    const na = jaNaLista(r), link = linkSeguro(r.link);
+    return `<article class="resultado item">
+      ${fotoHTML({ foto_url: r.foto, nome: r.titulo }, true)}
+      <h2>${esc(r.titulo)}</h2>
+      <p class="preco numero">${r.preco != null ? reais(r.preco) : esc(r.precoTexto || "Sem preço")}</p>
+      <span class="loja">${esc(r.loja || "")}${r.nota ? `, nota ${String(r.nota).replace(".",",")}` : ""}</span>
+      <div class="acoes">
+        <button class="botao pequeno-b" data-add="${n}" ${na ? "disabled" : ""}>${na ? ICONE.check + " Na lista" : "Adicionar"}</button>
+        ${link ? `<a class="link-p" href="${esc(link)}" target="_blank" rel="noopener noreferrer" aria-label="Ver ${esc(r.titulo)} na loja">Ver ${ICONE.link}</a>` : ""}
+      </div></article>`; }).join("")}</div>`;
+}
+$("#resultados").addEventListener("click", e => {
+  const b = e.target.closest("[data-add]"); if (!b) return;
+  const r = estado.resultados[Number(b.dataset.add)]; if (!r) return;
+  escolherComodo(r);
+});
+function escolherComodo(r){
+  const sugestao = adivinharComodo(r.titulo + " " + estado.ultimoTermo);
+  abrirFolha("Para qual cômodo?", `
+    <p class="pequeno" style="margin:-6px 0 16px">${esc(r.titulo)}</p>
+    <div class="opcoes-comodo" role="group" aria-label="Cômodo">
+      ${COMODOS.map(c => `<button type="button" class="chip" data-c="${esc(c)}" aria-pressed="${c === sugestao}">${esc(c)}</button>`).join("")}
+    </div>
+    <div class="grupo"><label class="rotulo" for="q-qtd">Quantidade</label>
+      <input class="entrada-texto" id="q-qtd" type="number" inputmode="numeric" min="1" value="1"></div>
+    <p class="erro" id="erro-add" role="alert"></p>
+    <div class="rodape-folha"><button class="botao largo" id="confirmar-add">Adicionar à lista</button></div>`);
+  let comodo = sugestao;
+  $(".opcoes-comodo").addEventListener("click", e => { const c = e.target.closest(".chip"); if (!c) return; comodo = c.dataset.c; $$(".opcoes-comodo .chip").forEach(x => x.setAttribute("aria-pressed", x === c)); });
+  $("#confirmar-add").addEventListener("click", async (ev) => {
+    ev.target.disabled = true; ev.target.textContent = "Adicionando…";
+    try {
+      await db.inserir("itens", { nome: r.titulo, comodo, status: "quero", quantidade: Math.max(1, parseInt($("#q-qtd").value)||1),
+        preco: r.preco ?? null, loja: r.loja || null, link: linkSeguro(r.link) || null, foto_url: urlSegura(r.foto) || null });
+      fecharFolha(); await carregar(); avisar("Adicionado à lista de compras.");
+    } catch (err){ console.error(err); ev.target.disabled = false; ev.target.textContent = "Adicionar à lista"; $("#erro-add").textContent = mensagemErro(err, "Não deu para adicionar. Tentem de novo."); }
+  });
+}
+
+/* =================================================================
+   LISTA DE COMPRAS + GRÁFICOS
+   ================================================================= */
+const valor = (i) => (Number(i.preco)||0) * (Number(i.quantidade)||1);
+function rosca(fatias, total){
+  const r = 54, C = 2 * Math.PI * r; let acum = 0;
+  const arcos = fatias.map((f) => {
+    const tam = total ? f.v / total * C : 0;
+    const s = `<circle r="${r}" cx="75" cy="75" fill="none" stroke="${f.cor}" stroke-width="20" stroke-dasharray="${Math.max(0,tam-1.5)} ${C}" stroke-dashoffset="${-acum}" transform="rotate(-90 75 75)"/>`;
+    acum += tam; return s;
+  }).join("");
+  return `<svg viewBox="0 0 150 150" aria-hidden="true"><circle r="${r}" cx="75" cy="75" fill="none" stroke="var(--rosa)" stroke-width="20"/>${arcos}
+    <text x="75" y="72" text-anchor="middle" style="font:500 17px var(--serif);fill:var(--tinta)">${esc(reaisCurto(total, 1000))}</text>
+    <text x="75" y="91" text-anchor="middle" style="font:400 11px var(--sans);fill:var(--tinta-2)">faltam</text></svg>`;
+}
+function renderCompras(){
+  const alvo = $("#compras-conteudo");
+  const quero = estado.itens.filter(i => i.status === "quero");
+  const tenho = estado.itens.filter(i => i.status === "tenho");
+  const falta = quero.reduce((s,i) => s + valor(i), 0);
+  const gasto = tenho.reduce((s,i) => s + valor(i), 0);
+  const semPreco = quero.filter(i => i.preco == null).length;
+  if (!estado.itens.length){
+    alvo.innerHTML = `<div class="vazio"><svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg><h2>A lista está vazia</h2><p>Busquem um produto e toquem em Adicionar. Ele aparece aqui com o preço.</p><a class="botao" href="#buscar">Ir para a busca</a></div>`; return;
+  }
+  const fatias = COMODOS.map((c, n) => ({ c, v: quero.filter(i => i.comodo === c).reduce((s,i)=>s+valor(i),0), cor: CORES_GRAFICO[n] })).filter(f => f.v > 0);
+  const barras = COMODOS.map(c => {
+    const l = estado.itens.filter(i => i.comodo === c);
+    const tot = l.reduce((s,i)=>s+valor(i),0), ok = l.filter(i=>i.status==="tenho").reduce((s,i)=>s+valor(i),0);
+    return { c, tot, ok };
+  }).filter(b => b.tot > 0);
+  const resumoTexto = quero.length > 0
+    ? `${quero.length} ${quero.length === 1 ? "item" : "itens"} na lista. Vocês já investiram ${reais(gasto)} na casa.`
+    : `Nada pendente. Vocês já investiram ${reais(gasto)} na casa.`;
+  alvo.innerHTML = `
+    <div class="resumo">
+      <svg class="laco-canto" viewBox="0 0 64 60" aria-hidden="true"><use href="#laco"/></svg>
+      <p class="pequeno" style="margin:0">Falta comprar</p>
+      <p class="falta numero">${reais(falta)}</p>
+      <p class="pequeno" style="margin:0">${resumoTexto}${semPreco ? ` ${semPreco} sem preço não ${semPreco === 1 ? "entrou" : "entraram"} na conta.` : ""}</p>
+    </div>
+    ${fatias.length || barras.length ? `<div class="graficos">
+      ${fatias.length ? `<div class="cartao"><h2 class="titulo-secao" style="font-size:20px">Quanto falta por cômodo</h2>
+        <div class="rosca" style="margin-top:16px">${rosca(fatias, falta)}
+          <ul class="legenda-lista">${fatias.map(f => `<li><span class="ponto" style="background:${f.cor}"></span><span>${esc(f.c)}</span><span class="numero">${esc(reaisCurto(f.v))}</span></li>`).join("")}</ul></div></div>` : ""}
+      ${barras.length ? `<div class="cartao"><h2 class="titulo-secao" style="font-size:20px">Comprado até agora</h2>
+        <div class="barras">${barras.map(b => `<div class="barra-linha">
+          <div class="topo-b"><span>${esc(b.c)}</span><span class="legenda numero">${esc(reaisCurto(b.ok))} de ${esc(reaisCurto(b.tot))}</span></div>
+          <div class="trilho" role="progressbar" aria-label="${esc(b.c)}: comprado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(b.ok/b.tot*100)}"><span style="width:${b.ok/b.tot*100}%"></span></div></div>`).join("")}</div></div>` : ""}
+    </div>` : ""}
+    ${quero.length ? `<ul class="lista-compras">${COMODOS.filter(c => quero.some(i => i.comodo === c)).map(c => `
+      <li><h3 class="grupo-titulo">${esc(c)}</h3><ul class="lista-compras">${quero.filter(i => i.comodo === c).map(i => {
+        const link = linkSeguro(i.link || "");
+        return `<li class="linha-compra">${fotoHTML(i, true)}
+          <div><h4>${esc(i.nome)}</h4>
+            <p class="meta numero">${i.preco != null ? reais(i.preco) : "Sem preço"}${(i.quantidade||1) > 1 ? ` × ${i.quantidade}` : ""}${i.loja ? `, ${esc(i.loja)}` : ""}</p>
+            <div class="acoes">
+              <button class="botao-comprei" data-comprei="${esc(i.id)}">${ICONE.check} Comprei</button>
+              ${link ? `<a class="link-p" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Ver ${ICONE.link}</a>` : ""}
+              <button class="link-p cinza" data-editar="${esc(i.id)}">Editar</button>
+            </div></div></li>`; }).join("")}</ul></li>`).join("")}</ul>`
+    : `<div class="vazio" style="margin-top:20px"><svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg><h2>Tudo comprado</h2><p>Quando quiserem algo novo, é só buscar e adicionar.</p><a class="botao secundario" href="#buscar">Buscar produtos</a></div>`}`;
+}
+$("#compras-conteudo").addEventListener("click", async e => {
+  const c = e.target.closest("[data-comprei]");
+  if (c){
+    const item = estado.itens.find(i => i.id === c.dataset.comprei); if (!item) return;
+    c.disabled = true;
+    try { await db.atualizar("itens", item.id, { status: "tenho", comprado_em: new Date().toISOString() }); await carregar(); avisar(`${item.nome} agora é de vocês.`); }
+    catch (err){ console.error(err); c.disabled = false; avisar(mensagemErro(err, "Não deu para marcar. Tentem de novo.")); }
+    return;
+  }
+  const ed = e.target.closest("[data-editar]");
+  if (ed){ const item = estado.itens.find(i => i.id === ed.dataset.editar); if (item) formItem(item); }
+});
+
+/* =================================================================
+   ESTÉTICA / ARQUITETURA
+   ================================================================= */
+function renderEstetica(){
+  const usados = new Set(estado.estetica.map(x => x.comodo).filter(Boolean));
+  if (estado.filtroEst !== "Todos" && !usados.has(estado.filtroEst)) estado.filtroEst = "Todos";
+  const chips = $("#chips-estetica"); chips.hidden = usados.size < 2; chips.innerHTML = chipsHTML(estado.filtroEst, usados);
+  const filtro = (x) => estado.filtroEst === "Todos" || x.comodo === estado.filtroEst;
+  const cores = estado.estetica.filter(x => x.tipo === "cor" && filtro(x));
+  const mats = estado.estetica.filter(x => x.tipo === "material" && filtro(x));
+  const refs = estado.estetica.filter(x => x.tipo === "referencia" && filtro(x));
+  const vazioPeq = (t) => `<p class="pequeno" style="margin:0">${t}</p>`;
+  $("#estetica-conteudo").innerHTML = `
+    <section class="bloco" style="margin-top:8px" aria-labelledby="h-paleta">
+      <div class="bloco-topo"><h2 class="titulo-secao" id="h-paleta">Paleta</h2><button class="link" data-novo="cor">Nova cor</button></div>
+      ${cores.length ? `<div class="paleta">${cores.map(x => `<button class="amostra" data-est="${esc(x.id)}" aria-label="Cor ${esc(x.titulo)}, ${esc(x.valor)}">
+        <div class="cor" style="background:${/^#[0-9a-f]{6}$/i.test(x.valor) ? x.valor : "#eee"}"></div>
+        <div class="info"><div class="nome-cor">${esc(x.titulo)}</div><div class="hex">${esc(x.valor)}</div>${x.comodo ? `<div class="legenda">${esc(x.comodo)}</div>` : ""}</div></button>`).join("")}</div>`
+        : vazioPeq("Guardem aqui as cores da casa: paredes, tecidos, marcenaria.")}
+    </section>
+    <section class="bloco" aria-labelledby="h-mat">
+      <div class="bloco-topo"><h2 class="titulo-secao" id="h-mat">Materiais e texturas</h2><button class="link" data-novo="material">Novo material</button></div>
+      ${mats.length ? `<div class="materiais">${mats.map(x => `<button class="material" data-est="${esc(x.id)}">${esc(x.titulo)}</button>`).join("")}</div>`
+        : vazioPeq("Madeira, pedra, linho, metal… o que vocês querem sentir ao tocar a casa.")}
+    </section>
+    <section class="bloco" aria-labelledby="h-ref">
+      <div class="bloco-topo"><h2 class="titulo-secao" id="h-ref">Referências</h2><button class="link" data-novo="referencia">Nova referência</button></div>
+      ${refs.length ? `<div class="mural">${refs.map(x => `<button class="ref" data-est="${esc(x.id)}">
+        ${urlSegura(x.imagem_url||"") ? `<img src="${esc(urlSegura(x.imagem_url))}" alt="${esc(x.titulo)}" loading="lazy">` : ""}
+        <div class="ref-texto"><div class="ref-titulo">${esc(x.titulo)}</div>${x.comodo ? `<div class="legenda">${esc(x.comodo)}</div>` : ""}</div></button>`).join("")}</div>`
+        : `<div class="vazio"><svg class="logo" viewBox="0 0 100 92" aria-hidden="true"><use href="#monograma"/></svg><h2>Um mural só de vocês</h2><p>Salvem fotos de ambientes, detalhes e projetos que inspiram a casa.</p><button class="botao" data-novo="referencia">Adicionar referência</button></div>`}
+    </section>`;
+}
+$("#chips-estetica").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; estado.filtroEst = b.dataset.comodo; renderEstetica(); });
+$("#estetica-conteudo").addEventListener("click", e => {
+  const n = e.target.closest("[data-novo]"); if (n) return formEstetica({ tipo: n.dataset.novo });
+  const b = e.target.closest("[data-est]"); if (!b) return;
+  const x = estado.estetica.find(y => y.id === b.dataset.est); if (x) formEstetica(x);
+});
+$("#add-estetica").addEventListener("click", () => formEstetica({ tipo: "referencia" }));
+
+function formEstetica(x){
+  const novo = !x.id;
+  const tipos = { referencia: "Referência", cor: "Cor", material: "Material" };
+  const corpo = (t) => {
+    if (t === "cor") return `
+      <div class="duas-col" style="grid-template-columns:96px 1fr">
+        <div class="grupo"><label class="rotulo" for="e-cor">Cor</label>
+          <input class="entrada-texto" id="e-cor" type="color" value="${esc(/^#[0-9a-f]{6}$/i.test(x.valor||"") ? x.valor : "#C1121F")}" style="padding:4px;height:50px"></div>
+        <div class="grupo"><label class="rotulo" for="e-titulo">Nome da cor</label>
+          <input class="entrada-texto" id="e-titulo" value="${esc(x.titulo||"")}" placeholder="Ex.: Verde oliva da cozinha"></div>
+      </div>`;
+    if (t === "material") return `<div class="grupo"><label class="rotulo" for="e-titulo">Material ou textura</label>
+        <input class="entrada-texto" id="e-titulo" value="${esc(x.titulo||"")}" placeholder="Ex.: Madeira freijó"></div>`;
+    return `${campoFoto(x.imagem_url)}
+      <div class="grupo"><label class="rotulo" for="e-titulo">Título</label>
+        <input class="entrada-texto" id="e-titulo" value="${esc(x.titulo||"")}" placeholder="Ex.: Cozinha com marcenaria clara"></div>
+      <div class="grupo"><label class="rotulo" for="e-link">Link de origem (opcional)</label>
+        <input class="entrada-texto" id="e-link" type="url" inputmode="url" value="${esc(x.link||"")}" placeholder="Pinterest, Instagram, site…"></div>`;
+  };
+  abrirFolha(novo ? "Nova inspiração" : `Editar ${tipos[x.tipo].toLowerCase()}`, `
+    <form id="form-est" novalidate>
+      ${novo ? `<div class="segmentado" role="group" aria-label="Tipo">${Object.entries(tipos).map(([k,v]) => `<button type="button" data-tipo="${k}" aria-pressed="${k === x.tipo}">${v}</button>`).join("")}</div>` : ""}
+      <div id="corpo-est">${corpo(x.tipo)}</div>
+      <div class="grupo"><label class="rotulo" for="e-comodo">Cômodo (opcional)</label>
+        <select class="entrada-texto" id="e-comodo"><option value="">Casa toda</option>${opcoesComodo(x.comodo)}</select></div>
+      <div class="grupo"><label class="rotulo" for="e-nota">Observação (opcional)</label>
+        <textarea class="entrada-texto" id="e-nota" placeholder="O que vocês gostaram nisso?">${esc(x.nota||"")}</textarea></div>
+      <p class="erro" id="erro-est" role="alert"></p>
+      <div class="rodape-folha">
+        <button class="botao largo" type="submit">${novo ? "Salvar" : "Salvar alterações"}</button>
+        ${novo ? "" : `<button class="botao perigo largo" type="button" id="excluir-est">Excluir</button>`}
+        ${x.link && linkSeguro(x.link) ? `<a class="botao secundario largo" href="${esc(linkSeguro(x.link))}" target="_blank" rel="noopener noreferrer">Abrir link de origem</a>` : ""}
+      </div>
+    </form>`);
+  let tipo = x.tipo; ligarFoto();
+  $$(".segmentado button").forEach(b => b.addEventListener("click", () => {
+    tipo = b.dataset.tipo; $$(".segmentado button").forEach(y => y.setAttribute("aria-pressed", y === b));
+    $("#corpo-est").innerHTML = corpo(tipo); ligarFoto();
+  }));
+  $("#form-est").addEventListener("submit", async e => {
+    e.preventDefault();
+    const titulo = $("#e-titulo").value.trim();
+    const arq = $("#arquivo-foto") && $("#arquivo-foto").files[0];
+    if (!titulo){ $("#erro-est").textContent = "Deem um nome para salvar."; $("#e-titulo").focus(); return; }
+    if (tipo === "referencia" && !arq && !x.imagem_url){ $("#erro-est").textContent = "Escolham uma foto para a referência."; return; }
+    const botao = $("#form-est [type=submit]"); botao.disabled = true; botao.textContent = "Salvando…";
+    try {
+      const campos = { tipo, titulo, comodo: $("#e-comodo").value || null, nota: $("#e-nota").value.trim() || null };
+      if (tipo === "cor") campos.valor = $("#e-cor").value.toUpperCase();
+      if (tipo === "referencia"){ campos.link = linkSeguro(($("#e-link").value||"").trim()) || null; campos.imagem_url = arq ? await db.enviarFoto(arq) : x.imagem_url; }
+      if (novo) await db.inserir("estetica", campos);
+      else { await db.atualizar("estetica", x.id, campos); if (arq && x.imagem_url) db.apagarFoto(x.imagem_url); }
+      fecharFolha(); await carregar(); avisar(novo ? "Inspiração salva." : "Alterações salvas.");
+    } catch (err){ console.error(err); botao.disabled = false; botao.textContent = novo ? "Salvar" : "Salvar alterações"; $("#erro-est").textContent = mensagemErro(err, "Não deu para salvar. Confiram a internet e tentem de novo."); }
+  });
+  const ex = $("#excluir-est");
+  if (ex) ex.addEventListener("click", async () => {
+    if (!ex.dataset.confirmar){ ex.dataset.confirmar = "1"; ex.textContent = "Toque de novo para excluir"; return; }
+    try { await db.remover("estetica", x.id, x.imagem_url); fecharFolha(); await carregar(); avisar("Excluído."); }
+    catch (err){ console.error(err); $("#erro-est").textContent = mensagemErro(err, "Não deu para excluir agora."); }
+  });
+}
+
+/* =================================================================
+   AJUDANTE (IA com raciocínio + pesquisa na web)
+   ================================================================= */
+const CHAVE_CHAT = "nc-chat";
+const chat = {
+  msgs: (() => { try { return JSON.parse(guardado.get(CHAVE_CHAT)) || []; } catch { return []; } })(),
+  web: guardado.get("nc-chat-web") !== "0",
+  enviando: false,
+  salvar(){ this.msgs = this.msgs.slice(-60); guardado.set(CHAVE_CHAT, JSON.stringify(this.msgs)); }
+};
+const SUGESTOES_IA = [
+  "Montem uma lista completa para a cozinha, do essencial ao que é bom ter",
+  "O que não pode faltar no banheiro no primeiro mês?",
+  "Pesquise a air fryer com melhor custo-benefício hoje",
+  "Adicione dois jogos de lençol queen na lista",
+  "Que cores combinam com a nossa paleta para o quarto?"
+];
+const avatarIA = (girando) => `<span class="avatar${girando ? " girando" : ""}" aria-hidden="true"><svg viewBox="0 0 44 44"><use href="#catavento-pas" width="44" height="44"/></svg></span>`;
+
+/* --- texto da IA: markdown simples e seguro --- */
+function mdSeguro(t){
+  const linhas = esc(t || "").split(/\r?\n/);
+  const inline = (s) => s
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+    .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+  let html = "", lista = null, par = [];
+  const fecharPar = () => { if (par.length){ html += `<p>${inline(par.join("<br>"))}</p>`; par = []; } };
+  const fecharLista = () => { if (lista){ html += `</${lista}>`; lista = null; } };
+  for (const bruta of linhas){
+    const l = bruta.trim();
+    let m;
+    if (!l){ fecharPar(); fecharLista(); continue; }
+    if ((m = l.match(/^#{1,6}\s+(.*)/))){ fecharPar(); fecharLista(); html += `<h4>${inline(m[1])}</h4>`; continue; }
+    if ((m = l.match(/^[-*•]\s+(.*)/))){ fecharPar(); if (lista !== "ul"){ fecharLista(); html += "<ul>"; lista = "ul"; } html += `<li>${inline(m[1])}</li>`; continue; }
+    if ((m = l.match(/^\d+[.)]\s+(.*)/))){ fecharPar(); if (lista !== "ol"){ fecharLista(); html += "<ol>"; lista = "ol"; } html += `<li>${inline(m[1])}</li>`; continue; }
+    if (/^\|.*\|$/.test(l)){ if (/^\|[\s:|-]+\|$/.test(l)) continue; fecharLista(); par.push(l.slice(1,-1).split("|").map(c => c.trim()).join(", ")); continue; }
+    fecharLista(); par.push(l);
+  }
+  fecharPar(); fecharLista();
+  return html;
+}
+
+/* --- separa as "minilistas" que a IA manda em blocos ```lista --- */
+function normalizarComodo(c, nome){
+  const t = String(c || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  const achado = COMODOS.find(x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === t);
+  return achado || adivinharComodo(nome);
+}
+function extrairListas(texto){
+  const listas = []; let falhas = 0;
+  const limpo = String(texto || "").replace(/```[ \t]*([a-zA-Z]*)[ \t]*\r?\n?([\s\S]*?)```/g, (bloco, tipo, corpo) => {
+    let obj; try { obj = JSON.parse(corpo.trim()); } catch { if (tipo && /lista/i.test(tipo)){ falhas++; return ""; } return bloco; }
+    const grupos = Array.isArray(obj) ? obj : obj && Array.isArray(obj.listas) ? obj.listas : [obj];
+    let usou = false;
+    for (const g of grupos){
+      if (!g || !Array.isArray(g.itens)) continue;
+      const itens = g.itens.slice(0, 60).map(i => ({
+        nome: String(i.nome || i.item || "").trim().slice(0, 140),
+        comodo: normalizarComodo(i.comodo, i.nome),
+        quantidade: Math.max(1, Math.min(99, parseInt(i.quantidade) || 1)),
+        preco: typeof i.preco === "number" && isFinite(i.preco) && i.preco >= 0 ? Math.round(i.preco * 100) / 100 : numeroBR(i.preco),
+        motivo: String(i.motivo || "").trim().slice(0, 160),
+        status: i.status === "tenho" ? "tenho" : "quero",
+        estado: null, dbId: null
+      })).filter(i => i.nome);
+      if (itens.length){ listas.push({ titulo: String(g.titulo || (itens.length === 1 ? "Sugestão" : "Lista sugerida")).slice(0, 80), itens }); usou = true; }
+    }
+    return usou ? "" : bloco;
+  }).replace(/\n{3,}/g, "\n\n").trim();
+  return { limpo, listas, falhas };
+}
+
+/* --- o que a IA sabe sobre a casa --- */
+function contextoAjudante(){
+  const linha = (i) => `- ${i.nome} (${i.comodo}${(i.quantidade||1) > 1 ? `, ${i.quantidade} un.` : ""}${i.preco != null ? `, R$ ${Number(i.preco).toFixed(2)}` : ""})`;
+  const tenho = estado.itens.filter(i => i.status === "tenho").slice(0, 70).map(linha).join("\n");
+  const quero = estado.itens.filter(i => i.status === "quero").slice(0, 70).map(linha).join("\n");
+  const cores = estado.estetica.filter(x => x.tipo === "cor").map(x => `${x.titulo} ${x.valor}${x.comodo ? ` (${x.comodo})` : ""}`).join("; ");
+  const mats = estado.estetica.filter(x => x.tipo === "material").map(x => x.titulo).join("; ");
+  const refs = estado.estetica.filter(x => x.tipo === "referencia").map(x => x.titulo).slice(0, 15).join("; ");
+  return [
+    `Data de hoje: ${new Date().toLocaleDateString("pt-BR")}.`,
+    `Casal: ${NOMES.join(" e ")}. Quem está escrevendo agora: ${quem() || "não informado"}.`,
+    `JÁ TÊM (inventário):\n${tenho || "(nada ainda)"}`,
+    `LISTA DE COMPRAS:\n${quero || "(vazia)"}`,
+    `ESTÉTICA DA CASA: cores: ${cores || "nenhuma"}. Materiais: ${mats || "nenhum"}. Referências: ${refs || "nenhuma"}.`
+  ].join("\n\n").slice(0, 6000);
+}
+
+/* --- respostas de exemplo no modo demonstração --- */
+function respostaDemo(pergunta){
+  const t = pergunta.toLowerCase();
+  const kit = t.includes("banheiro") ? ["Banheiro", [["Jogo de toalhas de banho (4 peças)",2,129.9,"Duas para usar, duas para lavar"],["Tapete de banheiro antiderrapante",2,49.9,"Segurança ao sair do banho"],["Porta-escovas e saboneteira",1,59.9,"Organiza a bancada"],["Lixeira com tampa 5 L",1,39.9,"Essencial e discreta"],["Cesto de roupa suja",1,89.9,"Evita roupa espalhada"],["Kit de toalhas de rosto",4,19.9,"Troca frequente"]]]
+    : ["Cozinha", [["Jogo de panelas inox 5 peças",1,459.9,"Base do dia a dia, dura anos"],["Frigideira antiaderente 28 cm",1,129.9,"Ovos, grelhados e panquecas"],["Faca do chef 8 polegadas",1,149.9,"Faz 80% dos cortes"],["Tábua de corte de madeira",1,79.9,"Protege o fio da faca"],["Jogo de pratos 12 peças",1,199.9,"Jantar para quatro pessoas"],["Jogo de talheres 24 peças",1,159.9,"Uso diário"],["Copos de vidro (6 unidades)",2,49.9,"Água e suco"],["Potes herméticos de vidro",1,119.9,"Sobras e mantimentos"],["Escorredor de louça",1,89.9,"Pia organizada"],["Pano de prato (kit com 5)",1,39.9,"Troca frequente"]]];
+  const lista = { titulo: `${kit[0]} essencial (exemplo)`, itens: kit[1].map(([nome,q,preco,motivo]) => ({ nome, comodo: kit[0], quantidade: q, preco, motivo, status: "quero" })) };
+  return {
+    texto: `Este é um **exemplo** do modo demonstração: aqui o Ajudante não está ligado de verdade.\n\nQuando vocês fizerem o passo 4.4 do guia, ele vai pensar e pesquisar de verdade. Enquanto isso, vejam como fica uma lista para revisar:\n\n\`\`\`lista\n${JSON.stringify(lista)}\n\`\`\``,
+    raciocinio: "Exemplo de raciocínio: o casal pediu ajuda; começo pelo essencial do cômodo, evito repetir o que já está nas listas e estimo preços médios.",
+    pesquisou: false, modelo: "demonstração"
+  };
+}
+db.ajudante = async function(mensagens, pesquisar){
+  if (MODO_DEMO){ await new Promise(r => setTimeout(r, 1400)); return respostaDemo(mensagens[mensagens.length-1].content); }
+  const { data, error } = await sb.functions.invoke("ajudante", { body: { mensagens, contexto: contextoAjudante(), pesquisar } });
+  if (error){
+    let msg = ""; try { msg = (await error.context.json()).erro || ""; } catch { /* sem corpo */ }
+    const e = new Error(msg || error.message); e.status = error.context && error.context.status; e.servidor = msg; throw e;
+  }
+  return data;
+};
+
+/* --- desenho do chat --- */
+function cartaoLista(m, li){
+  const l = m.listas[li], n = l.itens.length;
+  const add = l.itens.filter(i => i.estado === "adicionado").length, pul = l.itens.filter(i => i.estado === "pulado").length;
+  const pend = n - add - pul;
+  const total = l.itens.reduce((s, i) => s + (i.preco != null ? i.preco * i.quantidade : 0), 0);
+  if (n === 1){
+    const i = l.itens[0];
+    return `<div class="minilista">
+      <div class="topo-ml"><span class="icone-ml"><svg viewBox="0 0 64 60" aria-hidden="true"><use href="#laco"/></svg></span>
+        <div class="item-unico"><span class="nome-u">${esc(i.nome)}</span>
+        <span class="resumo-ml">${esc(i.comodo)}, ${i.quantidade} ${i.quantidade > 1 ? "unidades" : "unidade"}${i.preco != null ? `, cerca de ${reais(i.preco)}` : ""}, ${i.status === "tenho" ? "no inventário" : "na lista de compras"}</span></div></div>
+      ${i.estado === "adicionado" ? `<p class="estado-ml">${ICONE.check} Adicionado</p>` : i.estado === "pulado" ? `<div class="acoes-ml"><span class="estado-ml">Deixado de fora.</span><button class="link-p" data-ml="${m.id}|${li}|0|add">Adicionar mesmo assim</button></div>`
+        : `<div class="acoes-ml"><button class="botao pequeno-b" data-ml="${m.id}|${li}|0|add">Adicionar</button><button class="botao secundario pequeno-b" data-ml="${m.id}|${li}|0|pular">Agora não</button></div>`}
+    </div>`;
+  }
+  return `<div class="minilista">
+    <div class="topo-ml"><span class="icone-ml"><svg viewBox="0 0 100 92" aria-hidden="true"><use href="#medalhao-mini"/></svg></span>
+      <div><h2 class="titulo-ml">${esc(l.titulo)}</h2><p class="resumo-ml">${n} itens${total ? `, cerca de ${reaisCurto(total, 100000)} no total` : ""}</p></div></div>
+    <ul>${l.itens.slice(0, 3).map(i => `<li><span>${esc(i.nome)}</span><span>${i.preco != null ? esc(reaisCurto(i.preco * i.quantidade, 100000)) : ""}</span></li>`).join("")}
+      ${n > 3 ? `<li><span class="legenda">e mais ${n - 3}</span><span></span></li>` : ""}</ul>
+    ${add || pul ? `<p class="estado-ml">${add} ${add === 1 ? "adicionado" : "adicionados"}${pul ? `, ${pul} ${pul === 1 ? "deixado" : "deixados"} de fora` : ""}${pend ? `, ${pend} para revisar` : ""}.</p>` : ""}
+    <div class="acoes-ml">
+      <button class="botao pequeno-b" data-revisar="${m.id}|${li}">${pend === n ? "Ver item por item" : pend ? "Continuar revisão" : "Ver itens"}</button>
+      ${pend ? `<button class="botao secundario pequeno-b" data-todos="${m.id}|${li}">Adicionar ${pend === n ? "todos" : `os ${pend} restantes`}</button>` : ""}
+    </div></div>`;
+}
+function renderChat(){
+  const alvo = $("#chat"); if (!alvo) return;
+  $("#nova-conversa").hidden = !chat.msgs.length;
+  if (!chat.msgs.length && !chat.enviando){
+    alvo.innerHTML = `<div class="vazio-chat">
+      <svg class="cv-grande" viewBox="0 0 48 56" aria-hidden="true"><use href="#catavento"/></svg>
+      <h2>Oi! Eu sou o Ajudante.</h2>
+      <p>Monto listas completas, pesquiso preços na internet e separo itens para vocês colocarem na lista com um toque.</p>
+      <div class="sugestoes-chat">${SUGESTOES_IA.map(s => `<button class="sugestao-chat" data-sugestao="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+      <p class="legenda" style="margin-top:18px">Usa o modelo de raciocínio GPT-OSS 120B, da OpenAI, pelo plano grátis do Groq.</p>
+    </div>`;
+    return;
+  }
+  alvo.innerHTML = chat.msgs.map(m => {
+    if (m.papel === "eu") return `<div class="msg eu">${esc(m.texto)}</div>`;
+    if (m.erro) return `<div class="msg ia">${avatarIA()}<div class="bolha erro-ia"><p>${esc(m.texto)}</p>
+      <div class="acoes-ml" style="margin-top:10px"><button class="botao secundario pequeno-b" data-repetir="${m.id}">Tentar de novo</button></div></div></div>`;
+    return `<div class="msg ia">${avatarIA()}<div>
+      <div class="bolha">${mdSeguro(m.texto) || (m.listas.length ? "<p>Separei isto para vocês revisarem:</p>" : "")}
+        ${m.listas.map((_, li) => cartaoLista(m, li)).join("")}</div>
+      <div class="meta-ia">
+        ${m.pesquisou ? `<span><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.5 3.5 5.3 3.5 8.5s-1.1 6-3.5 8.5c-2.4-2.5-3.5-5.3-3.5-8.5S9.6 6 12 3.5z"/></svg> Pesquisou na web</span>` : ""}
+        ${m.aviso ? `<span>${esc(m.aviso)}</span>` : ""}
+        ${m.raciocinio ? `<details class="raciocinio"><summary>Ver raciocínio</summary><div class="pensamento">${esc(m.raciocinio)}</div></details>` : ""}
+      </div></div></div>`;
+  }).join("") + (chat.enviando ? `<div class="msg ia" id="pensando">${avatarIA(true)}<div class="bolha"><p id="status-ia">Pensando…</p></div></div>` : "");
+}
+function rolarChat(){
+  requestAnimationFrame(() => { const ult = $("#chat").lastElementChild; if (ult) ult.scrollIntoView({ block: "end", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); });
+}
+function ajustarCaixa(){
+  const t = $("#msg-chat"); t.style.height = "auto"; t.style.height = Math.min(140, t.scrollHeight) + "px";
+  $("#enviar-chat").disabled = !t.value.trim() || chat.enviando;
+}
+$("#msg-chat").addEventListener("input", ajustarCaixa);
+$("#msg-chat").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey && !e.isComposing && matchMedia("(pointer: fine)").matches){ e.preventDefault(); $("#form-chat").requestSubmit(); }
+});
+$("#toggle-web").setAttribute("aria-pressed", chat.web);
+$("#toggle-web").addEventListener("click", () => {
+  chat.web = !chat.web; guardado.set("nc-chat-web", chat.web ? "1" : "0");
+  $("#toggle-web").setAttribute("aria-pressed", chat.web);
+  avisar(chat.web ? "O Ajudante pode pesquisar na web." : "Sem pesquisa: respostas mais rápidas.");
+});
+$("#form-chat").addEventListener("submit", e => {
+  e.preventDefault();
+  const texto = $("#msg-chat").value.trim(); if (!texto || chat.enviando) return;
+  $("#msg-chat").value = ""; ajustarCaixa();
+  enviarAoAjudante(texto);
+});
+async function enviarAoAjudante(texto, repetir){
+  if (!repetir) chat.msgs.push({ id: novoId(), papel: "eu", texto });
+  chat.enviando = true; chat.salvar(); renderChat(); rolarChat(); ajustarCaixa();
+  const fases = [[5000, "Pensando com calma…"], [12000, "Pesquisando e comparando, se precisar…"], [30000, "Quase lá…"]];
+  const timers = fases.map(([ms, txt]) => setTimeout(() => { const s = $("#status-ia"); if (s) s.textContent = txt; }, ms));
+  const historico = chat.msgs.filter(m => !m.erro).slice(-10).map(m => ({ role: m.papel === "eu" ? "user" : "assistant", content: String(m.bruto || m.texto).slice(0, 4000) }));
+  try {
+    const r = await db.ajudante(historico, chat.web);
+    const { limpo, listas, falhas } = extrairListas(r.texto || "");
+    const aviso = [r.aviso || "", falhas ? "Uma lista veio com defeito; peçam de novo." : ""].filter(Boolean).join(" ");
+    chat.msgs.push({ id: novoId(), papel: "ia", texto: limpo, bruto: r.texto || "", listas, raciocinio: (r.raciocinio || "").slice(0, 8000), pesquisou: !!r.pesquisou, aviso });
+  } catch (e){
+    console.error(e);
+    const m = e.status === 404 && !e.servidor ? "O Ajudante ainda não foi ligado. Vejam o passo 4.4 do guia."
+      : e.status === 401 ? "A sessão expirou. Toquem no ícone de pessoa, saiam e entrem de novo."
+      : e.servidor || "Não deu para falar com o Ajudante agora. Confiram a internet e tentem de novo.";
+    chat.msgs.push({ id: novoId(), papel: "ia", erro: true, texto: m, pergunta: texto });
+  } finally {
+    timers.forEach(clearTimeout);
+    chat.enviando = false; chat.salvar(); renderChat(); rolarChat(); ajustarCaixa();
+  }
+}
+function acharLista(ref){
+  const [mid, li] = ref.split("|"); const m = chat.msgs.find(x => x.id === mid);
+  return m && m.listas[Number(li)] ? { m, l: m.listas[Number(li)] } : null;
+}
+async function adicionarDaLista(item){
+  const nota = [item.motivo, item.preco != null ? "Preço estimado pelo Ajudante." : ""].filter(Boolean).join(" ");
+  const novo = await db.inserir("itens", { nome: item.nome, comodo: item.comodo, quantidade: item.quantidade, preco: item.preco, status: item.status, nota: nota || null });
+  item.estado = "adicionado"; item.dbId = novo && novo.id || null;
+}
+$("#chat").addEventListener("click", async e => {
+  const s = e.target.closest("[data-sugestao]");
+  if (s){ $("#msg-chat").value = s.dataset.sugestao; ajustarCaixa(); $("#msg-chat").focus(); return; }
+  const rep = e.target.closest("[data-repetir]");
+  if (rep){ const m = chat.msgs.find(x => x.id === rep.dataset.repetir); if (!m) return; chat.msgs = chat.msgs.filter(x => x !== m); enviarAoAjudante(m.pergunta, true); return; }
+  const ml = e.target.closest("[data-ml]");
+  if (ml){
+    const [mid, li, ii, acao] = ml.dataset.ml.split("|"); const a = acharLista(mid + "|" + li); if (!a) return;
+    const item = a.l.itens[Number(ii)]; ml.disabled = true;
+    try {
+      if (acao === "add"){ await adicionarDaLista(item); await carregar(); avisar(item.status === "tenho" ? "Adicionado ao inventário." : "Adicionado à lista de compras."); }
+      else item.estado = "pulado";
+    } catch (err){ console.error(err); avisar(mensagemErro(err, "Não deu para adicionar. Tentem de novo.")); }
+    chat.salvar(); renderChat(); return;
+  }
+  const rv = e.target.closest("[data-revisar]");
+  if (rv){ const a = acharLista(rv.dataset.revisar); if (a) revisarLista(a.m, a.l); return; }
+  const td = e.target.closest("[data-todos]");
+  if (td){
+    const a = acharLista(td.dataset.todos); if (!a) return; td.disabled = true;
+    let n = 0;
+    try { for (const i of a.l.itens) if (!i.estado){ await adicionarDaLista(i); n++; } }
+    catch (err){ console.error(err); avisar(mensagemErro(err, "Alguns itens não entraram. Tentem de novo.")); }
+    chat.salvar(); await carregar(); renderChat(); if (n) avisar(`${n} ${n === 1 ? "item adicionado" : "itens adicionados"}.`);
+  }
+});
+$("#nova-conversa").addEventListener("click", () => {
+  const b = $("#nova-conversa");
+  if (!b.dataset.confirmar){ b.dataset.confirmar = "1"; b.setAttribute("aria-label", "Toque de novo para apagar a conversa"); avisar("Toque de novo para começar uma conversa nova."); setTimeout(() => { delete b.dataset.confirmar; b.setAttribute("aria-label", "Começar uma nova conversa"); }, 4000); return; }
+  delete b.dataset.confirmar; chat.msgs = []; chat.salvar(); renderChat(); avisar("Conversa nova.");
+});
+
+/* --- revisão item por item (e lista completa) --- */
+function revisarLista(m, l, modo){
+  const proxima = () => l.itens.findIndex(i => !i.estado);
+  const desenhar = (modoAtual) => {
+    const idx = proxima(), n = l.itens.length, feitos = l.itens.filter(i => i.estado).length;
+    if (modoAtual === "lista" || idx === -1){
+      const add = l.itens.filter(i => i.estado === "adicionado").length;
+      abrirFolha(l.titulo, `<div class="revisao">
+        ${idx === -1 ? `<p class="pequeno" style="margin:0">Revisão concluída: ${add} de ${n} ${add === 1 ? "item foi" : "itens foram"} para as listas de vocês.</p>` : `<p class="pequeno" style="margin:0">${n - feitos} ainda para revisar.</p>`}
+        <ul class="lista-rev">${l.itens.map((i, k) => `<li><div><div class="n">${esc(i.nome)}</div><div class="d">${esc(i.comodo)}, ${i.quantidade} un.${i.preco != null ? `, cerca de ${reais(i.preco)}` : ""}</div></div>
+          ${i.estado === "adicionado" ? `<span class="ok">${ICONE.check} Na lista</span>` : `<button class="botao pequeno-b ${i.estado === "pulado" ? "secundario" : ""}" data-rev-add="${k}">Adicionar</button>`}</li>`).join("")}</ul>
+        <div class="rodape-folha">
+          ${idx !== -1 ? `<button class="botao largo" data-rev-modo="passo">Ver item por item</button>` : ""}
+          ${idx === -1 && add ? `<a class="botao largo" href="#compras" data-fechar>Ver lista de compras</a>` : ""}
+        </div></div>`);
+    } else {
+      const i = l.itens[idx];
+      abrirFolha(l.titulo, `<div class="revisao">
+        <div><p class="legenda" style="margin:0 0 6px">Item ${idx + 1} de ${n}</p>
+          <div class="trilho" role="progressbar" aria-label="Itens revisados" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${feitos}" style="margin:0"><span style="width:${feitos / n * 100}%"></span></div></div>
+        <div class="cartao-rev">
+          <span class="selo-comodo">${esc(i.comodo)}</span>
+          <h3>${esc(i.nome)}</h3>
+          <p class="preco-rev numero">${i.quantidade} ${i.quantidade > 1 ? "unidades" : "unidade"}${i.preco != null ? `, cerca de ${reais(i.preco)} cada` : ", sem preço estimado"}</p>
+          ${i.motivo ? `<p class="motivo">${esc(i.motivo)}</p>` : ""}
+          <p class="estado-rev">${i.status === "tenho" ? "Vai para o inventário (vocês já têm)." : "Vai para a lista de compras."}</p>
+          <button class="link-p" data-rev-buscar="${idx}" style="justify-self:start;margin-left:-10px">Ver preços no Google Shopping ${ICONE.link}</button>
+        </div>
+        <div class="duas-col">
+          <button class="botao secundario" data-rev-pular="${idx}">Pular</button>
+          <button class="botao" data-rev-add="${idx}">Adicionar</button>
+        </div>
+        <p class="erro" id="erro-rev" role="alert" style="margin:0;min-height:0"></p>
+        <div class="rodape-folha" style="margin:0">
+          <button class="link" data-rev-todos>Adicionar todos os ${l.itens.filter(x => !x.estado).length} que faltam</button>
+          <button class="link" data-rev-modo="lista">Ver a lista inteira</button>
+        </div></div>`);
+    }
+    $("#folha-dentro").onclick = async (ev) => {
+      const b = ev.target.closest("button,a"); if (!b) return;
+      if (b.dataset.revModo){ desenhar(b.dataset.revModo); return; }
+      if (b.dataset.revBuscar != null){
+        const termo = l.itens[Number(b.dataset.revBuscar)].nome; fecharFolha(); location.hash = "buscar"; $("#termo").value = termo; buscar(termo); return;
+      }
+      if (b.dataset.revPular != null){ l.itens[Number(b.dataset.revPular)].estado = "pulado"; chat.salvar(); renderChat(); desenhar("passo"); return; }
+      if (b.dataset.revAdd != null || b.dataset.revTodos != null){
+        b.disabled = true;
+        try {
+          if (b.dataset.revTodos != null){ for (const i of l.itens) if (!i.estado) await adicionarDaLista(i); }
+          else await adicionarDaLista(l.itens[Number(b.dataset.revAdd)]);
+          chat.salvar(); renderChat(); carregar();
+          desenhar(b.dataset.revTodos != null ? "lista" : (modoAtual === "lista" ? "lista" : "passo"));
+        } catch (err){ console.error(err); b.disabled = false; const er = $("#erro-rev"); if (er) er.textContent = mensagemErro(err, "Não deu para adicionar. Tentem de novo."); else avisar(mensagemErro(err, "Não deu para adicionar.")); }
+      }
+    };
+  };
+  desenhar(modo || "passo");
+}
+folha.addEventListener("close", () => { $("#folha-dentro").onclick = null; });
+
+/* =================================================================
+   CONTA: quem está usando + sair
+   ================================================================= */
+function abrirConta(){
+  abrirFolha("Sua conta", `
+    <svg class="logo logo-folha" viewBox="0 0 260 150" aria-hidden="true"><use href="#medalhao-aberto"/></svg>
+    <p class="pequeno" style="margin:0 0 18px;text-align:center">Entrando como <b>${esc(quem() || "—")}</b>. Quem adiciona algo aparece no nome de quem fez, e os dois veem tudo.</p>
+    <div class="rodape-folha">
+      <button class="botao perigo largo" id="sair">Sair deste aparelho</button>
+    </div>`);
+  $("#sair").addEventListener("click", async () => { await db.sair(); fecharFolha(); location.hash = ""; location.reload(); });
+}
+$("#botao-menu").addEventListener("click", abrirConta);
+
+/* =================================================================
+   ENTRADA
+   ================================================================= */
+if (MODO_DEMO){ $("#dica-demo").hidden = false; $("#faixa-demo").hidden = false; }
+$("#quem-login").innerHTML = NOMES.map(n => `<option${n === quem() ? " selected" : ""}>${esc(n)}</option>`).join("");
+$("#form-senha").addEventListener("submit", async e => {
+  e.preventDefault();
+  const senha = $("#senha").value, erro = $("#erro-senha"), botao = $("#botao-entrar"), nome = $("#quem-login").value;
+  if (CONFIG_INCOMPLETA){ erro.textContent = "A configuração está incompleta: preencham o endereço e a chave do Supabase e os e-mails de cada um no index.html (passo 5 do guia)."; return; }
+  if (SEM_BIBLIOTECA){ erro.textContent = "Uma parte do site não carregou. Confiram a internet e recarreguem a página."; return; }
+  if (!senha){ erro.textContent = "Digitem a senha para entrar."; $("#senha").focus(); return; }
+  botao.disabled = true; botao.textContent = "Entrando…"; erro.textContent = "";
+  try { await db.entrar(nome, senha); guardado.set("nc-quem", nome); await abrirApp(); }
+  catch (err){
+    erro.textContent = {
+      senha: "Senha incorreta. Confiram e tentem de novo.",
+      confirmar: "A conta ainda não foi confirmada. Vejam o passo 2 do guia (Auto Confirm User).",
+      espera: "Muitas tentativas seguidas. Esperem alguns minutos e tentem de novo."
+    }[err.message] || "Não deu para conectar. Confiram a internet e tentem de novo.";
+    botao.disabled = false; botao.textContent = "Entrar"; $("#senha").select();
+  }
+});
+
+async function abrirApp(){
+  $("#tela-entrada").hidden = true; $("#app").hidden = false;
+  mostrarVista(); await carregar();
+  let t; db.ouvirMudancas(() => { clearTimeout(t); t = setTimeout(carregar, 400); });
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) carregar(); });
+}
+(async () => {
+  try {
+    const nome = (!CONFIG_INCOMPLETA && !SEM_BIBLIOTECA) ? await db.sessao() : "";
+    if (nome){ guardado.set("nc-quem", nome); await abrirApp(); }
+    else if (matchMedia("(pointer: fine)").matches) $("#senha").focus({preventScroll:true});
+  }
+  catch (e){ console.error(e); }
+})();
+</script>
+</body>
+</html>
